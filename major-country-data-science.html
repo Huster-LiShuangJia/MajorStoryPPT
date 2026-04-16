@@ -336,8 +336,9 @@
 
     .cover-panel {
       margin-top: 24px;
-      max-width: 1020px;
-      padding: 24px 22px;
+      width: min(96vw, 980px);
+      max-width: 980px;
+      padding: 30px 36px 30px;
       border-radius: var(--radius-xl);
       border: 1px solid rgba(var(--accent-rgb), 0.35);
       background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
@@ -764,6 +765,12 @@
     .summary-card strong {
       position: relative;
       color: #ffd9f0;
+    }
+
+    /* First-part emphasis switched to blue; previous global summary bold color was #ffd9f0. */
+    #slide-summary .summary-card strong {
+      color: #67c8ff;
+      text-shadow: 0 0 8px rgba(103, 200, 255, 0.24);
     }
 
     .quote {
@@ -1532,6 +1539,10 @@
           <p>阶段性外援可以借力，但不能代替自主能力建设，最终仍要立足自立自强。</p>
         </button>
       </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-cover">返回开始</button>
+      </div>
     </section>
 
     <section class="slide" id="slide-strategy-correct" data-order="3" aria-label="正确策略页">
@@ -2072,7 +2083,7 @@
         <p>三大真实成就，一个共同基因：<strong class="highlight-yellow">武汉计算机人敢为人先、自主创新</strong>。</p>
         <p>从第一根光纤到第一颗闪存，再到国产数据库的坚守，</p>
         <p>武汉始终是中国计算机事业的重要一极。</p>
-        <p>你的选择，就是历史的回响。</p>
+        <p><strong class="highlight-yellow">你的选择，就是历史的回响。</strong></p>
         <p>感谢探索！请继续关注“计”往开来的下一个篇章。</p>
       </article>
       <div class="nav">
