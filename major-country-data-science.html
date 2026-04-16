@@ -28,6 +28,8 @@
       --radius-lg: 16px;
       --radius-md: 12px;
       --shadow: 0 20px 56px rgba(0, 0, 0, 0.34);
+      --pendant-rgb: 214, 107, 255;
+      --aim-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='8.5' fill='none' stroke='%23ff2a2a' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ff2a2a'/%3E%3Cpath d='M16 2v6M16 24v6M2 16h6M24 16h6' stroke='%23ff2a2a' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, crosshair;
     }
 
     * {
@@ -43,6 +45,31 @@
       overflow: hidden;
       color: var(--text);
       font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      background: #08070f;
+      cursor: var(--aim-cursor);
+    }
+
+    .app,
+    .slide,
+    button,
+    .choice,
+    .part-card,
+    .btn,
+    [data-target] {
+      cursor: var(--aim-cursor);
+    }
+
+    body::before,
+    body::after {
+      content: none;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body.bg-main {
+      --pendant-rgb: 214, 107, 255;
       background:
         radial-gradient(1400px 840px at 18% 14%, rgba(var(--accent-rgb), 0.32), transparent 62%),
         radial-gradient(1200px 760px at 84% 78%, rgba(var(--warn-rgb), 0.3), transparent 60%),
@@ -54,11 +81,8 @@
       background-repeat: no-repeat;
     }
 
-    body::before {
+    body.bg-main::before {
       content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
       background-image:
         radial-gradient(1.2px 1.2px at 16% 24%, rgba(255, 255, 255, 0.92), transparent 98%),
         radial-gradient(1.6px 1.6px at 44% 30%, rgba(255, 234, 252, 0.88), transparent 98%),
@@ -76,14 +100,11 @@
       opacity: 0.86;
       filter: drop-shadow(0 0 3px rgba(255, 220, 248, 0.26));
       animation: twinkle 6.2s ease-in-out infinite;
-      z-index: 0;
     }
 
-    body::after {
+    body.bg-main::after {
       content: "";
-      position: fixed;
       inset: -20%;
-      pointer-events: none;
       background:
         radial-gradient(56% 48% at 22% 32%, rgba(206, 108, 255, 0.3), transparent 70%),
         radial-gradient(52% 44% at 78% 64%, rgba(255, 107, 170, 0.28), transparent 72%),
@@ -99,7 +120,51 @@
       filter: blur(16px) saturate(1.1);
       mix-blend-mode: screen;
       animation: drift 22s linear infinite;
-      z-index: 0;
+    }
+
+    body.bg-part2 {
+      --pendant-rgb: 230, 108, 108;
+      background: linear-gradient(145deg, #1a0a0a, #2d1414);
+    }
+
+    body.bg-part2::before {
+      content: "";
+      opacity: 0.34;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    body.bg-part3 {
+      --pendant-rgb: 0, 229, 255;
+      background: linear-gradient(145deg, #0a1628, #0b2b42);
+    }
+
+    body.bg-part3::before {
+      content: "";
+      opacity: 0.34;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    body.bg-part4 {
+      --pendant-rgb: 183, 126, 255;
+      background: linear-gradient(145deg, #0a0f1c, #0b1a2e);
+    }
+
+    body.bg-part4::before {
+      content: "";
+      opacity: 0.45;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(0, 255, 255, 0.02) 0px, rgba(0, 255, 255, 0.02) 1px, transparent 1px, transparent 8px);
+    }
+
+    body.bg-finale {
+      --pendant-rgb: 244, 136, 182;
+      background: linear-gradient(145deg, #7c1239 0%, #ad2f66 46%, #8f5fd2 100%);
     }
 
     .app {
@@ -145,7 +210,7 @@
       height: var(--line-len);
       margin: 0 auto;
       border-radius: 2px;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), rgba(var(--accent-rgb), 0.78));
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(var(--pendant-rgb), 0.82));
       transform: scaleY(0.08);
       transform-origin: top center;
       animation: lineDrop 460ms ease forwards;
@@ -159,7 +224,7 @@
       transform: translateX(-50%);
       font-size: var(--size);
       line-height: 1;
-      filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 7px rgba(var(--accent-rgb), 0.35));
+      filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 7px rgba(var(--pendant-rgb), 0.35));
       font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Noto Sans SC", sans-serif;
       user-select: none;
     }
@@ -271,7 +336,7 @@
 
     .cover-panel {
       margin-top: 24px;
-      max-width: 860px;
+      max-width: 1020px;
       padding: 24px 22px;
       border-radius: var(--radius-xl);
       border: 1px solid rgba(var(--accent-rgb), 0.35);
@@ -297,11 +362,12 @@
       margin: 0;
       font-family: "Noto Serif SC", serif;
       font-weight: 900;
-      font-size: clamp(38px, 6.8vw, 80px);
+      font-size: clamp(32px, 5.6vw, 72px);
       line-height: 1.1;
       letter-spacing: 1px;
       color: #fff3fd;
       text-shadow: 0 8px 22px rgba(0, 0, 0, 0.36);
+      white-space: nowrap;
     }
 
     .cover-subtitle {
@@ -700,6 +766,582 @@
       color: #ffd9f0;
     }
 
+    .quote {
+      font-size: 20px;
+      color: var(--gold);
+      margin: 18px 0 10px;
+      font-family: "Noto Serif SC", serif;
+    }
+
+    .cover-dataflow {
+      position: absolute;
+      right: 3%;
+      bottom: 6%;
+      width: min(34vw, 420px);
+      height: min(24vh, 210px);
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.75;
+    }
+
+    .flow-grid {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, rgba(var(--accent-rgb), 0.1) 0 1px, transparent 1px 16px),
+        repeating-linear-gradient(90deg, rgba(var(--accent-rgb), 0.1) 0 1px, transparent 1px 16px);
+      mask-image: linear-gradient(to top left, transparent 0%, black 24%, black 100%);
+      border-radius: 16px;
+    }
+
+    .flow-line {
+      position: absolute;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, rgba(var(--accent-rgb), 0), rgba(var(--accent-rgb), 0.85), rgba(255, 196, 230, 0.88));
+      transform-origin: left center;
+      animation: flowPulse linear infinite;
+    }
+
+    .flow-line.l1 { left: 12%; top: 28%; width: 56%; animation-duration: 2.8s; }
+    .flow-line.l2 { left: 26%; top: 46%; width: 48%; animation-duration: 3.6s; animation-delay: 0.5s; }
+    .flow-line.l3 { left: 8%; top: 64%; width: 62%; animation-duration: 3.2s; animation-delay: 0.9s; }
+
+    .flow-node {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffd6f3;
+      box-shadow: 0 0 10px rgba(255, 199, 235, 0.8);
+      animation: nodeMove linear infinite;
+    }
+
+    .flow-node.n1 { left: 20%; top: 25%; animation-duration: 3.8s; }
+    .flow-node.n2 { left: 44%; top: 43%; animation-duration: 4.4s; animation-delay: 0.7s; }
+    .flow-node.n3 { left: 18%; top: 61%; animation-duration: 3.2s; animation-delay: 1s; }
+
+    .group-info {
+      position: absolute;
+      left: 3%;
+      bottom: 6%;
+      z-index: 3;
+      max-width: min(46vw, 680px);
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(var(--accent-rgb), 0.36);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+      color: #f3ddf0;
+      line-height: 1.6;
+      font-size: clamp(12px, 1.2vw, 15px);
+    }
+
+    .group-info strong {
+      color: #ffe6f9;
+    }
+
+    .chapter-shell {
+      margin-top: 16px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(8, 4, 13, 0.72);
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+
+    .chapter-chip {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font: 700 12px/1 "Orbitron", "Noto Sans SC", sans-serif;
+      letter-spacing: 1px;
+      border: 1px solid;
+      backdrop-filter: blur(4px);
+    }
+
+    .chip-part2 {
+      color: #d6f0ff;
+      border-color: rgba(90, 191, 255, 0.65);
+      background: rgba(49, 122, 168, 0.34);
+    }
+
+    .chip-part3 {
+      color: #ffe0d3;
+      border-color: rgba(255, 153, 98, 0.7);
+      background: rgba(142, 73, 42, 0.34);
+    }
+
+    .chip-part4 {
+      color: #e5e8ff;
+      border-color: rgba(136, 154, 255, 0.72);
+      background: rgba(79, 87, 150, 0.38);
+    }
+
+    .chapter-frame {
+      width: 100%;
+      height: min(76vh, 760px);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 14px;
+      background: #06070d;
+      display: block;
+    }
+
+    .chapter-note {
+      margin-top: 8px;
+      color: #d8c9de;
+      font-size: 13px;
+    }
+
+    .part-grid {
+      margin-top: 16px;
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+    }
+
+    .part-card {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.04));
+      padding: 16px 14px;
+      color: #eaf3ff;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      min-height: 168px;
+    }
+
+    .part-card h3 {
+      margin: 4px 0 8px;
+      font-family: "Noto Serif SC", serif;
+      font-size: clamp(20px, 2vw, 25px);
+      color: #ffffff;
+    }
+
+    .part-card p {
+      margin: 0;
+      font-size: clamp(13px, 1.36vw, 16px);
+      line-height: 1.58;
+      color: #d8e8f5;
+    }
+
+    .part-card:hover,
+    .part-card:focus-visible {
+      transform: translateY(-3px) scale(1.02);
+      outline: none;
+    }
+
+    .part-body {
+      margin-top: 14px;
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 1.1fr 1fr;
+    }
+
+    .part-text {
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.04));
+      box-shadow: var(--shadow);
+      padding: 18px;
+      line-height: 1.72;
+      color: #e8f1fb;
+    }
+
+    .part-text ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .part-text li {
+      margin-bottom: 8px;
+    }
+
+    .part-scene {
+      position: relative;
+      min-height: clamp(300px, 44vh, 480px);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: rgba(8, 6, 18, 0.74);
+    }
+
+    .part-scene img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: rgba(8, 6, 18, 0.84);
+      padding: 10px;
+    }
+
+    .part-caption {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 10px;
+      padding: 9px 11px;
+      border-radius: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: linear-gradient(to right, rgba(7, 8, 14, 0.75), rgba(7, 8, 14, 0.48));
+      color: #f4f8ff;
+      line-height: 1.56;
+      font-size: 14px;
+    }
+
+    .part2-theme,
+    .part3-theme,
+    .part4-theme {
+      isolation: isolate;
+    }
+
+    .slide.part2-theme,
+    .slide.part3-theme,
+    .slide.part4-theme {
+      position: absolute;
+      inset: 0;
+    }
+
+    .part2-theme > *,
+    .part3-theme > *,
+    .part4-theme > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .part2-theme {
+      background: linear-gradient(145deg, #1a0a0a, #2d1414);
+    }
+
+    .part2-theme::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.45;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    .part2-theme .title {
+      color: #f0f8ff;
+      background: none;
+      -webkit-text-fill-color: currentColor;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .part2-theme .subtitle {
+      color: #e8b4b4;
+      border-left: none;
+      padding-left: 0;
+      text-shadow: 0 2px 14px rgba(215, 178, 109, 0.24);
+    }
+
+    .part2-theme .page-chip {
+      color: #ffe9e9;
+      border-color: rgba(255, 255, 255, 0.26);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .part2-theme .part-card,
+    .part2-theme .part-text,
+    .part2-theme .question,
+    .part2-theme .summary-card {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+    }
+
+    .part2-theme .part-card:hover,
+    .part2-theme .part-card:focus-visible {
+      border-color: rgba(255, 107, 107, 0.85);
+      box-shadow: 0 10px 28px rgba(255, 107, 107, 0.25);
+    }
+
+    .part3-theme {
+      background: linear-gradient(145deg, #0a1628, #0b2b42);
+    }
+
+    .part3-theme::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.45;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    .part3-theme .title {
+      color: #f0f8ff;
+      background: none;
+      -webkit-text-fill-color: currentColor;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .part3-theme .subtitle {
+      color: #d7b26d;
+      border-left: none;
+      padding-left: 0;
+      text-shadow: 0 2px 14px rgba(215, 178, 109, 0.24);
+    }
+
+    .part3-theme .page-chip {
+      color: #b6d2e2;
+      border-color: rgba(255, 255, 255, 0.26);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .part3-theme .part-card,
+    .part3-theme .part-text,
+    .part3-theme .question,
+    .part3-theme .summary-card {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+    }
+
+    .part3-theme .part-card:hover,
+    .part3-theme .part-card:focus-visible {
+      border-color: rgba(0, 229, 255, 0.9);
+      box-shadow: 0 10px 28px rgba(0, 229, 255, 0.22);
+    }
+
+    .part4-theme {
+      background: linear-gradient(145deg, #0a0f1c, #0b1a2e);
+    }
+
+    .part4-theme::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.4;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(0, 255, 255, 0.02) 0px, rgba(0, 255, 255, 0.02) 1px, transparent 1px, transparent 8px);
+    }
+
+    .part4-theme .title {
+      background: linear-gradient(135deg, #ffffff, #b77eff, #2ad4ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .part4-theme .subtitle {
+      color: #e4bd6e;
+      border-left: 3px solid #e4bd6e;
+      padding-left: 14px;
+    }
+
+    .part4-theme .page-chip {
+      color: #f5faff;
+      border-color: rgba(42, 212, 255, 0.4);
+      background: rgba(0, 229, 255, 0.12);
+    }
+
+    .part4-theme .part-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .part4-theme .part-card {
+      border-radius: 24px;
+      border-color: rgba(42, 212, 255, 0.5);
+      background: rgba(15, 30, 55, 0.85);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .part4-theme .part-card:hover,
+    .part4-theme .part-card:focus-visible {
+      transform: translateY(-4px);
+      border-color: #b77eff;
+      box-shadow: 0 18px 28px -8px rgba(183, 126, 255, 0.3);
+    }
+
+    .part4-theme .part-body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .part4-theme .part-text {
+      flex: 1 1 380px;
+      border-radius: 20px;
+      border-color: rgba(42, 212, 255, 0.4);
+      background: linear-gradient(125deg, rgba(20, 40, 60, 0.7), rgba(10, 20, 35, 0.8));
+      color: #e0f0ff;
+    }
+
+    .part4-theme .part-scene {
+      flex: 1 1 360px;
+      min-height: clamp(300px, 42vh, 460px);
+      border-radius: 20px;
+      border-color: rgba(42, 212, 255, 0.35);
+      background: rgba(15, 30, 55, 0.85);
+    }
+
+    .part4-theme .part-scene img {
+      background: rgba(10, 20, 35, 0.8);
+      padding: 12px;
+    }
+
+    .part4-theme .quote {
+      font-size: 20px;
+      color: #e4bd6e;
+      margin: 18px 0 10px;
+      font-family: "Noto Serif SC", serif;
+    }
+
+    .part4-theme .data-badge {
+      display: inline-block;
+      background: rgba(183, 126, 255, 0.2);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      margin-right: 8px;
+      margin-top: 8px;
+      font-family: "Orbitron", monospace;
+      color: #dbbfff;
+    }
+
+    #slide-p4-summary {
+      display: block;
+      overflow-y: auto;
+      padding-bottom: 64px;
+    }
+
+    #slide-p4-summary .summary-card {
+      width: 100%;
+      max-width: none;
+      margin: 16px 0 0;
+    }
+
+    #slide-p4-summary .summary-card ul {
+      line-height: 1.72;
+    }
+
+    #slide-p4-summary .summary-card li + li {
+      margin-top: 8px;
+    }
+
+    #slide-p3-summary .summary-card p + p {
+      margin-top: 8px;
+    }
+
+    #slide-p4-summary .nav {
+      margin-top: 26px;
+      margin-bottom: 12px;
+    }
+
+    .part3-theme .part-caption {
+      display: none;
+    }
+
+    .highlight-yellow {
+      color: #ffd86a !important;
+      font-weight: 900;
+      text-shadow: 0 0 8px rgba(255, 216, 106, 0.22);
+    }
+
+    .effect-zoom.active {
+      animation: enterZoom 520ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+    }
+
+    .effect-sweep.active {
+      animation: enterSweep 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .effect-float.active {
+      animation: enterFloat 600ms ease both;
+    }
+
+    .finale-slide {
+      position: relative;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255, 138, 178, 0.3), transparent 38%),
+        radial-gradient(circle at 82% 74%, rgba(190, 140, 255, 0.34), transparent 42%),
+        linear-gradient(145deg, #7c1239 0%, #ad2f66 46%, #8f5fd2 100%);
+      overflow: hidden;
+    }
+
+    .flag-faint {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .flag-faint .star {
+      position: absolute;
+      color: rgba(255, 220, 112, 0.24);
+      text-shadow: 0 0 14px rgba(255, 210, 95, 0.24);
+      user-select: none;
+    }
+
+    .flag-faint .big { left: 7%; top: 11%; font-size: 74px; }
+    .flag-faint .s1 { left: 16.2%; top: 8%; font-size: 26px; transform: rotate(26deg); }
+    .flag-faint .s2 { left: 20%; top: 13.6%; font-size: 24px; transform: rotate(8deg); }
+    .flag-faint .s3 { left: 19%; top: 21%; font-size: 23px; transform: rotate(-10deg); }
+    .flag-faint .s4 { left: 15.2%; top: 26%; font-size: 24px; transform: rotate(-26deg); }
+
+    .finale-slide .title,
+    .finale-slide .subtitle,
+    .finale-card,
+    .finale-slide .nav {
+      position: relative;
+      z-index: 2;
+    }
+
+    .finale-card {
+      margin-top: 18px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03));
+      box-shadow: var(--shadow);
+      padding: 22px 22px 20px;
+      color: #f7e9f4;
+      line-height: 1.86;
+      font-size: clamp(15px, 1.45vw, 18px);
+    }
+
+    .finale-card strong {
+      color: #ffe0f6;
+    }
+
+    .end-screen {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font: 700 clamp(24px, 3.3vw, 40px)/1.4 "Noto Serif SC", serif;
+      color: #e8c778;
+      z-index: 120;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 320ms ease;
+      padding: 24px;
+    }
+
+    .end-screen.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     @keyframes floatIn {
       from {
         opacity: 0;
@@ -741,6 +1383,33 @@
       100% { transform: translateY(9px) rotate(var(--sway)); }
     }
 
+    @keyframes flowPulse {
+      0% { opacity: 0.2; transform: scaleX(0.75); }
+      50% { opacity: 0.95; transform: scaleX(1); }
+      100% { opacity: 0.2; transform: scaleX(0.75); }
+    }
+
+    @keyframes nodeMove {
+      0% { transform: translateX(0) scale(0.8); opacity: 0.35; }
+      50% { transform: translateX(48px) scale(1); opacity: 1; }
+      100% { transform: translateX(0) scale(0.8); opacity: 0.35; }
+    }
+
+    @keyframes enterZoom {
+      from { opacity: 0; transform: scale(0.95) translateY(14px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes enterSweep {
+      from { opacity: 0; transform: translateX(46px) skewX(-3deg); }
+      to { opacity: 1; transform: translateX(0) skewX(0deg); }
+    }
+
+    @keyframes enterFloat {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     @media (max-width: 980px) {
       .slide {
         padding: 16px 14px 18px;
@@ -763,6 +1432,17 @@
         width: 172px;
       }
 
+      .group-info {
+        position: static;
+        margin-top: 16px;
+        max-width: 100%;
+      }
+
+      .part-grid,
+      .part-body {
+        grid-template-columns: 1fr;
+      }
+
       .charm-box {
         width: 172px;
         height: 146px;
@@ -775,7 +1455,7 @@
     }
   </style>
 </head>
-<body>
+<body class="bg-main">
   <main class="app" id="app">
     <div class="charm-widget" id="charmWidget" aria-label="吊坠装饰">
       <div class="charm-box" aria-hidden="true">
@@ -787,15 +1467,31 @@
     </div>
 
     <section class="slide active" id="slide-cover" data-order="1" aria-label="封面页">
-      <div class="page-chip">第一部分 · 数海铸国·星火纪年</div>
+      <div class="page-chip">总标题 · 我的专业 我的国</div>
       <div class="cover-panel">
-        <div class="cover-kicker">MY MAJOR · MY COUNTRY</div>
-        <h1 class="cover-title">我的专业 我的国</h1>
-        <p class="cover-subtitle">数据科学与大数据技术 · 新中国科技脊梁叙事</p>
+        <div class="cover-kicker">THROUGH WIND AND RAIN, COMPUTING FORWARD</div>
+        <h1 class="cover-title">栉风沐雨，“计”往开来</h1>
+        <p class="cover-subtitle">数据科学与大数据技术 · 四部曲联展（新中国 / 改革开放 / 武汉 / 华科）</p>
         <p class="cover-note">
-          本篇为项目第一部分，聚焦 1949—1970s 的关键科技历程。
-          你将从国家战略与青年报国两条线进入历史现场，理解“数据能力”如何成为国家能力。
+          我们以“我的专业 我的国”为总引言，围绕新中国、改革开放、武汉创新与华科群星四个阶段展开，
+          共同回答一个问题：数据科学与大数据技术如何在历史进程中转化为国家能力、社会价值与青年担当。
         </p>
+      </div>
+      <div class="cover-dataflow" aria-hidden="true">
+        <div class="flow-grid"></div>
+        <span class="flow-line l1"></span>
+        <span class="flow-line l2"></span>
+        <span class="flow-line l3"></span>
+        <span class="flow-node n1"></span>
+        <span class="flow-node n2"></span>
+        <span class="flow-node n3"></span>
+      </div>
+      <div class="group-info">
+        <div><strong>组名：</strong>栉风沐雨，“计”往开来</div>
+        <div><strong>演讲：</strong>张祎博</div>
+        <div><strong>制作：</strong>李嘉  施乐然  冯泽丞  王博文</div>
+        <div><strong>讲稿：</strong>赵子锐</div>
+        <div><strong>美术：</strong>李嘉  施乐然</div>
       </div>
       <div class="nav">
         <button class="btn primary" data-target="slide-home">进入第一部分</button>
@@ -804,8 +1500,8 @@
 
     <section class="slide" id="slide-home" data-order="2" aria-label="首页">
       <div class="page-chip">数海铸国·星火纪年</div>
-      <h1 class="title">我的专业（数据科学与大数据技术）我的国</h1>
-      <p class="subtitle">新中国数据脊梁 · 聚焦 1949—1970s</p>
+      <h1 class="title">新中国：数据报国的起点</h1>
+      <p class="subtitle">聚焦 1949—1970s · 自力更生构筑科技底座</p>
 
       <div class="question">
         你将以“两重身份”进入历史：
@@ -1070,8 +1766,8 @@
     </section>
 
     <section class="slide" id="slide-summary" data-order="10" aria-label="总结页">
-      <h2 class="title">从“数据报国”到“智能强国”</h2>
-      <p class="subtitle">我的专业，不只服务行业，也服务国家战略</p>
+      <h2 class="title">第一部分小结：新中国的计算基石</h2>
+      <p class="subtitle">从“数据报国”到“智能强国”，底层能力先行</p>
 
       <article class="summary-card">
         <p>
@@ -1085,27 +1781,514 @@
         <p>
           今天我学习的数据科学与大数据技术，不只是为了做分析报告，
           更是为了在关键产业和关键系统中提供可解释、可验证、可落地的技术能力。
-          <strong>我的专业（数据科学与大数据技术）我的国：</strong>既是个人成长路径，也是时代任务。
+          <strong>这一部分的关键词是：先打地基，再造高楼。</strong>
         </p>
       </article>
 
       <div class="nav">
+        <button class="btn primary" data-target="slide-p2-home">进入第二部分（改革开放）</button>
         <button class="btn primary" data-target="slide-cover">重新挑战</button>
         <button class="btn ghost" data-target="slide-youth-select">返回青年选择</button>
       </div>
     </section>
+
+    <section class="slide part2-theme effect-zoom" id="slide-p2-home" data-order="11" aria-label="第二部分首页">
+      <div class="page-chip">春潮奔涌·算启新局</div>
+      <h2 class="title">春潮奔涌：改革开放</h2>
+      <p class="subtitle">改革开放·中国计算机的十字路口</p>
+
+      <div class="question">
+        1980年代，百废待兴，资金有限。计算机要服务大众，应先发展哪一条路？
+      </div>
+
+      <div class="part-grid">
+        <button class="part-card" data-target="slide-p2-a" data-p2-choice="A">
+          <div class="tag">🔹 尖端突破</div>
+          <h3>A. 高性能超算</h3>
+          <p>举国之力研发巨型机，维护国家安全与尊严。</p>
+        </button>
+        <button class="part-card" data-target="slide-p2-b" data-p2-choice="B">
+          <div class="tag">🔹 惠及民生</div>
+          <h3>B. 普及型PC与软件</h3>
+          <p>让计算机走进工厂、学校、机关，培育应用生态。</p>
+        </button>
+      </div>
+
+      <div class="nav">
+        <button class="btn primary" id="p2ChoiceCBtn" data-target="slide-p2-c" disabled>🔒 解锁 C 方案（0/2）</button>
+        <button class="btn ghost" data-target="slide-summary">返回第一部分总结</button>
+      </div>
+    </section>
+
+    <section class="slide part2-theme effect-zoom" id="slide-p2-a" data-order="12" aria-label="第二部分A">
+      <h2 class="title">❌ 单脚跳的代价</h2>
+      <p class="subtitle">只有超算，曲高和寡</p>
+
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>如果当年只选A（高性能超算）：</strong></li>
+            <li>• 全国懂计算机的人凤毛麟角，花巨资造出的超算，无人会用，甚至要花高价请外国专家来操作。</li>
+            <li>• 忽视了微机产业，导致国内几乎没有软件人才积累。</li>
+            <li>• 当时盗版Apple II大行其道，国家收不到税，产业也发展不起来。</li>
+            <li><strong>结果：</strong>尖端技术“悬在空中”，无法落地生根。</li>
+          </ul>
+          <p style="margin-top:12px;"><strong>💡 历史提示：</strong>邓小平1984年参观上海小学生计算机操作时曾说：“计算机普及要从娃娃抓起。”——这暗示了国家同样重视普及。</p>
+        </article>
+        <aside class="part-scene">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tianhe-2%20in%20National%20Supercomputer%20Center%20in%20Guangzhou.jpg" alt="高性能超算机房示意" />
+          <div class="part-caption">单脚跳得再高，也走不远。</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p2-home">返回选择</button>
+      </div>
+    </section>
+
+    <section class="slide part2-theme effect-zoom" id="slide-p2-b" data-order="13" aria-label="第二部分B">
+      <h2 class="title">❌ 单脚跳的局限</h2>
+      <p class="subtitle">只有普及，受制于人</p>
+
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>如果当年只选B（普及型PC与软件）：</strong></li>
+            <li>• 我们只能组装、倒卖国外的PC，一旦被制裁，立刻断供。</li>
+            <li>• 国防科技（核武器模拟、天气预报）需要超算算力，光靠卖PC解决不了。</li>
+            <li>• 在全球计算机科学界，没有超算就没有发言权。</li>
+            <li><strong>结果：</strong>下游普及沦为“高级搬运工”，核心技术受制于人。</li>
+          </ul>
+          <p style="margin-top:12px;"><strong>💡 历史提示：</strong>1983年，中国成功研制“银河-I”巨型机（每秒1亿次）——这暗示了国家同样重视尖端攻关。</p>
+        </article>
+        <aside class="part-scene">
+          <img src="./image_for_groupmajorPPT/Computer_puji.jpg" alt="计算机普及教学场景示意" />
+          <div class="part-caption">只有普及，没有尖端，同样会被卡住咽喉。</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p2-home">返回选择</button>
+      </div>
+    </section>
+
+    <section class="slide part2-theme effect-zoom" id="slide-p2-c" data-order="14" aria-label="第二部分C">
+      <h2 class="title">历史正解：两条腿走路</h2>
+      <p class="subtitle">伟人的战略智慧</p>
+
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>邓小平（1984年参观上海）：</strong>“计算机普及要从娃娃抓起。”</li>
+            <li><strong>中央决策（1983年）：</strong>“搞巨型机，我们不惜代价。”</li>
+          </ul>
+          <div class="meta" style="margin-top: 12px;">
+            <span class="pill">1983年 · 银河-I</span>
+            <span class="pill">1984年 · 娃娃抓起</span>
+            <span class="pill">两条腿走路</span>
+          </div>
+          <ul style="margin-top: 8px;">
+            <li><strong>左腿（尖端/追赶）：</strong>1983年“银河-I”巨型机（每秒1亿次）；1992年“银河-II”问世。这是国家的“压舱石”，保证核物理、气象、石油勘探不被卡脖子。</li>
+            <li><strong>右腿（普及/民生）：</strong>1980年代引进PC生产线（长城、浪潮、联想前身）；1984年中国软件行业协会成立。这是“播种机”，让无数中国人第一次摸到键盘。</li>
+          </ul>
+          <p style="margin-top: 12px;"><strong>🎯 核心结论：</strong>没有普及，超算无人才可用；没有超算，普及无根基可立。二者互为表里，缺一不可。</p>
+        </article>
+        <aside class="part-scene">
+          <img src="./image_for_groupmajorPPT/Dengxiaoping.jpg" alt="改革开放时期战略抉择示意" />
+          <div class="part-caption">尖端攻关与普及应用并进，才是历史给出的答案。</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn primary" data-target="slide-p2-summary">📌 进入总结页</button>
+      </div>
+    </section>
+
+    <section class="slide part2-theme effect-zoom" id="slide-p2-summary" data-order="15" aria-label="第二部分总结">
+      <div class="page-chip">春潮奔涌·算启新局</div>
+      <h2 class="title">春潮小结：改革开放的计算机成人礼</h2>
+      <p class="subtitle">改革开放·中国计算机的成人礼</p>
+      <article class="summary-card">
+        <div class="gold-particles"></div>
+        <p>1980年代，中国计算机事业站在十字路口。</p>
+        <p>没有选择“先超算后普及”或“先普及后超算”，而是<strong>“两条腿走路”</strong>——</p>
+        <p><strong>尖端攻关与普惠民生并行不悖，互为支撑。</strong></p>
+        <p>这一战略智慧，为21世纪互联网浪潮的爆发储备了第一代网民和程序员，也为今日中国计算机产业的崛起奠定了根基。</p>
+        <div class="quote">“计算机普及要从娃娃抓起。”<br>——邓小平</div>
+        <p style="margin-top: 16px;"><strong>你的探索，就是与历史同行。</strong></p>
+      </article>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p2-home">返回第二部分首页</button>
+        <button class="btn primary" data-target="slide-p3-home">进入第三部分（武汉）</button>
+      </div>
+    </section>
+
+    <section class="slide part3-theme effect-sweep" id="slide-p3-home" data-order="16" aria-label="第三部分首页">
+      <h1 class="title">江城智汇：武汉</h1>
+      <p class="subtitle">武汉计算机发展史</p>
+
+      <div class="question">
+        以下四个选项中，有三个是真实的武汉计算机里程碑，有一个是“编造”的历史。
+        点击你认为真实的选项。
+      </div>
+
+      <div class="part-grid">
+        <button class="part-card" data-target="slide-p3-a">
+          <div class="tag">🔹 光通信</div>
+          <h3>A. 光纤之源</h3>
+          <p>1976年，赵梓森在武汉拉制出中国第一根石英光纤。</p>
+        </button>
+        <button class="part-card" data-target="slide-p3-b">
+          <div class="tag">🔹 基础软件</div>
+          <h3>B. 软件之魂</h3>
+          <p>1992年，冯裕才在武汉创立达梦数据库，坚持自主可控。</p>
+        </button>
+        <button class="part-card" data-target="slide-p3-c">
+          <div class="tag">🔹 存储芯片</div>
+          <h3>C. 存储之芯</h3>
+          <p>2016年，长江存储落地武汉，成功量产3D NAND闪存。</p>
+        </button>
+        <button class="part-card false-candidate" data-target="slide-p3-wrong">
+          <div class="tag">🔹 早期计算</div>
+          <h3>🧠 D. 城市之脑</h3>
+          <p>2020年，武汉率先建成城市级“数字大脑”，全面运行大数据分析平台。</p>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn primary" id="p3SummaryBtn" data-target="slide-p3-summary" disabled>📌 浏览进度 0/4（解锁总结页）</button>
+        <button class="btn ghost" data-target="slide-p2-summary">返回第二部分总结</button>
+      </div>
+    </section>
+
+    <section class="slide part3-theme effect-sweep" id="slide-p3-a" data-order="17" aria-label="第三部分A">
+      <h2 class="title">✅ 通信之基</h2>
+      <p class="subtitle">一“纤”引未来，数据畅流万里</p>
+      <div class="meta">
+        <span class="pill">1976年</span>
+        <span class="pill">石英光纤</span>
+        <span class="pill">赵梓森</span>
+        <span class="pill">大数据传输底座</span>
+      </div>
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>事件：</strong>1976年，武汉邮科院赵梓森院士在简陋实验室中拉制出中国第一根石英光纤（长度仅数米）。</li>
+            <li><strong>人物：</strong>赵梓森（1932-2022），“中国光纤之父”，带领团队用汽油灯代替精密设备，攻克玻璃提纯工艺。</li>
+            <li><strong>意义：</strong>为中国互联网、宽带通信奠定物理基础，武汉因此成为“光通信之都”。光纤是大数据时代<strong>海量数据传输的物理命脉</strong>，没有光纤，数据中心之间、云端与终端之间的数据流动将无从谈起。</li>
+            <li style="list-style:none; margin-top:8px;"><strong>“每一秒穿梭在光纤里的PB级数据，都始于这根简陋但伟大的光纤。”</strong></li>
+          </ul>
+        </article>
+        <aside class="part-scene">
+          <img src="./slr/Zhao.png" alt="赵梓森照片" />
+          <div class="part-caption">探索其他真实故事</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p3-home">探索其他真实故事</button>
+      </div>
+    </section>
+
+    <section class="slide part3-theme effect-sweep" id="slide-p3-b" data-order="18" aria-label="第三部分B">
+      <h2 class="title">✅ 数据之基</h2>
+      <p class="subtitle">国产数据库的“达梦长征”</p>
+      <div class="meta">
+        <span class="pill">1992年（创业）/ 1980年代（研究）</span>
+        <span class="pill">国产数据库</span>
+        <span class="pill">关系型数据库</span>
+        <span class="pill">自主可控 · 大数据基座</span>
+      </div>
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>事件：</strong>1992年，冯裕才在武汉创立达梦数据库公司（前身实验室研究始于1980年代）。</li>
+            <li><strong>人物：</strong>冯裕才（1944年生），中国数据库领域开拓者，坚持40年自主研发，拒绝外资收购。</li>
+            <li><strong>成就：</strong>达梦DM系列数据库应用于国家电网、金融、航天、政务等核心领域，国产数据库市占率第一。达梦已支持分布式、云原生、分析型场景。</li>
+            <li style="list-style:none; margin-top:8px;"><strong>“没有国产数据库，大数据时代的数据主权就无从谈起。”</strong></li>
+          </ul>
+        </article>
+        <aside class="part-scene">
+          <img src="./slr/DaMeng.jpg" alt="达梦数据库相关配图" />
+          <div class="part-caption">探索其他真实故事</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p3-home">探索其他真实故事</button>
+      </div>
+    </section>
+
+    <section class="slide part3-theme effect-sweep" id="slide-p3-c" data-order="19" aria-label="第三部分C">
+      <h2 class="title">✅ 存储之芯</h2>
+      <p class="subtitle">世界级“光谷造”，数据永久家园</p>
+      <div class="meta">
+        <span class="pill">2016年（项目启动）</span>
+        <span class="pill">长江存储</span>
+        <span class="pill">3D NAND 闪存</span>
+        <span class="pill">大数据持久化</span>
+      </div>
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>事件：</strong>2016年，长江存储（武汉新芯+国家集成电路基金）成立，2018年量产32层3D NAND，2020年发布128层，跻身全球第一梯队。</li>
+            <li><strong>人物：</strong>数千名工程师团队（以杨士宁为代表的管理与技术骨干）。</li>
+            <li><strong>意义：</strong>中国存储芯片从零到一，武汉成为国家存储器基地核心。</li>
+            <li style="list-style:none; margin-top:8px;"><strong>“每一颗闪存，都写满武汉‘芯’力量，也守护着海量数据的永恒记忆。”</strong></li>
+          </ul>
+        </article>
+        <aside class="part-scene">
+          <img src="./slr/Yangtze%20Memory.jpg" alt="长江存储相关配图" />
+          <div class="part-caption">探索其他真实故事</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p3-home">探索其他真实故事</button>
+      </div>
+    </section>
+
+    <section class="slide part3-theme effect-sweep warning-slide" id="slide-p3-wrong" data-order="20" aria-label="第三部分辨析">
+      <h2 class="title">❌</h2>
+      <p class="subtitle">数字大脑虽好，但“率先建成”不是武汉</p>
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>错误选项原文：</strong>“2020年，武汉率先建成城市级‘数字大脑’，全面运行大数据分析平台。”</li>
+            <li><strong>真相：</strong>武汉确实在推进智慧城市和大数据平台（如“武汉城市大脑”、“i武汉”），但全国范围内，上海、杭州、深圳等城市更早提出并落地；武汉并未在2020年“率先建成”全面运行的“数字大脑”。</li>
+            <li><strong>武汉真实的大数据进展：</strong>2021年武汉获批国家新一代人工智能创新发展试验区；2022年武汉大数据交易所成立（中部首家）；2023年武汉超算中心与人工智能计算中心形成“双中心”算力集群。</li>
+          </ul>
+          <p style="margin-top:12px;"><strong>官方新闻对照提示：</strong>可引用“武汉获批国家新一代人工智能创新发展试验区”、“武汉大数据交易所揭牌成立”、“武汉人工智能计算中心上线”等公开报道标题进行核验。</p>
+        </article>
+        <aside class="part-scene">
+          <img src="./slr/CityBrain.jpg" alt="城市大脑示意图" />
+          <div class="part-caption">返回首页</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p3-home">返回首页</button>
+      </div>
+    </section>
+
+    <section class="slide part3-theme effect-sweep" id="slide-p3-summary" data-order="21" aria-label="第三部分总结">
+      <h2 class="title">江城小结：武汉计算机发展样本</h2>
+      <p class="subtitle">三大真实成就，共同塑造武汉计算机脊梁</p>
+      <article class="summary-card">
+        <div class="gold-particles"></div>
+        <p>光纤、数据库、闪存——</p>
+        <p>三大真实成就，一个共同基因：<strong class="highlight-yellow">武汉计算机人敢为人先、自主创新</strong>。</p>
+        <p>从第一根光纤到第一颗闪存，再到国产数据库的坚守，</p>
+        <p>武汉始终是中国计算机事业的重要一极。</p>
+        <p>你的选择，就是历史的回响。</p>
+        <p>感谢探索！请继续关注“计”往开来的下一个篇章。</p>
+      </article>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p3-home">返回第三部分首页</button>
+        <button class="btn primary" data-target="slide-p4-home">进入第四部分（华科）</button>
+      </div>
+    </section>
+
+    <section class="slide part4-theme effect-float" id="slide-p4-home" data-order="22" aria-label="第四部分首页">
+      <div class="page-chip">大数据科学 · 薪火相传</div>
+      <h1 class="title">喻园群星：华科群星</h1>
+      <p class="subtitle">从数据视角解码华科计算机群星</p>
+      <div class="question">
+        🎓 作为<strong style="color:#b77eff">大数据科学专业</strong>的学生，你有机会采访一位华科翘楚，从“数据思维”角度重新解读他们的成就。<br>
+        点击卡片，探索数据与历史的交汇。
+      </div>
+      <div class="part-grid">
+        <button class="part-card" data-target="slide-p4-feng">
+          <div class="tag">🎮 游戏数据科学</div>
+          <h3>A. 冯 骥</h3>
+          <p>《黑神话：悟空》制作人 · 从用户行为数据到文化IP爆款，数据驱动的游戏革命。</p>
+        </button>
+        <button class="part-card" data-target="slide-p4-xie">
+          <div class="tag">💾 存储体系</div>
+          <h3>B. 谢长生</h3>
+          <p>华科计算机学院原院长 · 高性能存储与计算机体系结构，大数据底层基础设施。</p>
+        </button>
+        <button class="part-card" data-target="slide-p4-zhang">
+          <div class="tag">📱 社交大数据</div>
+          <h3>C. 张小龙</h3>
+          <p>微信之父 · 13亿月活的图数据、推荐系统与信息流分发。</p>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn primary" data-target="slide-p4-summary">📊 进入大数据总结与展望</button>
+        <button class="btn ghost" data-target="slide-p3-summary">返回第三部分总结</button>
+      </div>
+    </section>
+
+    <section class="slide part4-theme effect-float" id="slide-p4-feng" data-order="23" aria-label="第四部分A">
+      <div class="truth-mark">🎮 游戏数据科学 · 冯骥</div>
+      <div class="page-chip">用户行为分析 · 文化数据挖掘</div>
+      <h2 class="title">从数据洞察到《黑神话》现象级爆款</h2>
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>身份：</strong>游戏科学创始人，《黑神话：悟空》制作人，华科生命学院2000级校友。</li>
+            <li><strong>数据视角：</strong>《黑神话》全球销量破1800万，背后是玩家行为数据、实时难度调节、热力图分析。</li>
+            <li><strong>技术关联：</strong>游戏内隐藏“1037”彩蛋——数据埋点与用户情感计算。</li>
+            <li><strong>大数据启发：</strong>利用A/B测试优化关卡设计，通过用户画像定位核心受众。</li>
+            <li><strong>金句：</strong>“真正要问的不是你爱什么，而是你擅长什么。”——对数据科学而言，擅长从数据中发现规律。</li>
+            <li><strong>思考题：</strong>如何用大数据预测下一个文化爆款？</li>
+          </ul>
+        </article>
+        <aside class="part-scene">
+          <img src="./fzc/冯骥.webp" alt="冯骥相关图片" />
+          <div class="part-caption">冯骥 · 数据驱动的游戏革命者</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p4-home">🔙 返回选择</button>
+        <button class="btn primary" data-target="slide-p4-summary">📈 进入大数据总结</button>
+      </div>
+    </section>
+
+    <section class="slide part4-theme effect-float" id="slide-p4-xie" data-order="24" aria-label="第四部分B">
+      <div class="truth-mark">💾 高性能存储 · 谢长生</div>
+      <div class="page-chip">计算机体系结构 · 大数据底层基石</div>
+      <h2 class="title">存储是数据的家：从体系结构到海量数据管理</h2>
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>身份：</strong>华中科技大学计算机学院教授、博士生导师，曾任华科计算机学院院长。</li>
+            <li><strong>学术贡献：</strong>长期从事计算机体系结构、高性能存储系统研究，主持多项国家973、863计划存储方向重大项目。</li>
+            <li><strong>数据视角：</strong>分布式存储、新型非易失存储、存储系统架构——这些都是大数据平台（HDFS/Ceph）的底层支撑。</li>
+            <li><strong>人才培养：</strong>培养大批存储领域人才，推动中国存储技术自主创新。</li>
+            <li><strong>金句：</strong>“存储是数据的家，没有可靠的存储，大数据就是空中楼阁。”</li>
+            <li><strong>思考题：</strong>如果存储系统的IO性能提升10倍，大数据分析会发生什么变化？</li>
+          </ul>
+        </article>
+        <aside class="part-scene">
+          <img src="./fzc/谢长生.jpeg" alt="谢长生相关图片" />
+          <div class="part-caption">谢长生 · 高性能存储的开拓者</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p4-home">🔙 返回选择</button>
+        <button class="btn primary" data-target="slide-p4-summary">📊 进入总结</button>
+      </div>
+    </section>
+
+    <section class="slide part4-theme effect-float" id="slide-p4-zhang" data-order="25" aria-label="第四部分C">
+      <div class="truth-mark">📱 社交网络数据 · 张小龙</div>
+      <div class="page-chip">图数据库 · 信息分发 · 用户画像</div>
+      <h2 class="title">13亿节点的图数据：微信背后的数据科学</h2>
+      <div class="part-body">
+        <article class="part-text">
+          <ul>
+            <li><strong>身份：</strong>微信创始人，腾讯高级副总裁，华科电信系1994届校友。</li>
+            <li><strong>数据视角：</strong>微信月活13亿，形成全球最大的社交关系图谱（图数据）。</li>
+            <li><strong>大数据应用：</strong>朋友圈推荐、公众号分发、小程序分析——都依赖数据挖掘与机器学习。</li>
+            <li><strong>隐私与伦理：</strong>张小龙“用完即走”哲学，暗示数据最小化采集原则。</li>
+            <li><strong>华科寄语：</strong>“我在华科最大的收获，不是知识，而是‘独立思考’的能力。”</li>
+            <li><strong>思考题：</strong>如何平衡个性化推荐与用户隐私？</li>
+          </ul>
+        </article>
+        <aside class="part-scene">
+          <img src="./fzc/张小龙.jpg" alt="张小龙相关图片" />
+          <div class="part-caption">张小龙 · 社交大数据时代的定义者</div>
+        </aside>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p4-home">🔙 返回选择</button>
+        <button class="btn primary" data-target="slide-p4-summary">📱 进入总结</button>
+      </div>
+    </section>
+
+    <section class="slide part4-theme effect-float" id="slide-p4-summary" data-order="26" aria-label="第四部分总结">
+      <div class="page-chip">大数据科学 · 社会价值与展望</div>
+      <h2 class="title">用数据温暖社会 · 一起包饺子</h2>
+
+      <div class="summary-card">
+        <p>📌 <strong>大数据视角下的华科群星</strong></p>
+        <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 16px;">
+          <li><strong>谢长生</strong> —— 存储基座：从计算机体系结构到高性能存储，夯实大数据底层基础设施</li>
+          <li><strong>张小龙</strong> —— 图数据与推荐系统：13亿节点社交网络的挖掘与分发</li>
+          <li><strong>冯骥</strong> —— 用户行为分析：游戏数据埋点、A/B测试与文化数据挖掘</li>
+        </ul>
+        <p><span class="data-badge">数据采集</span><span class="data-badge">数据存储</span><span class="data-badge">数据清洗</span><span class="data-badge">数据分析</span><span class="data-badge">数据可视化</span><span class="data-badge">数据伦理</span></p>
+        <p style="margin-top: 12px;">三位华科翘楚的故事，共同诠释了<strong>“数据从何而来、如何处理、如何创造价值”</strong>的大数据科学闭环。</p>
+      </div>
+
+      <div class="summary-card">
+        <div class="quote">🧰 大数据科学 · 社会问题工具箱</div>
+        <ul style="margin-left: 20px; margin-top: 8px;">
+          <li>🏥 <strong>医疗大数据</strong> —— 疾病预测、电子病历挖掘、药物重定位</li>
+          <li>🌾 <strong>农业大数据</strong> —— 产量预测、病虫害预警、供应链优化</li>
+          <li>🚇 <strong>交通大数据</strong> —— 实时路况预测、智慧红绿灯、拥堵溯源</li>
+          <li>🏫 <strong>教育大数据</strong> —— 学习行为分析、个性化学习路径推荐</li>
+          <li>🌍 <strong>环境大数据</strong> —— 空气质量预测、碳排放追踪、气候建模</li>
+          <li>🛡️ <strong>安全大数据</strong> —— 异常检测、网络攻击溯源、舆情分析</li>
+        </ul>
+        <p style="margin-top: 16px; text-align: center; color: var(--gold);">“数据不是冰冷的数字，而是洞察世界的透镜。”</p>
+      </div>
+
+      <div class="summary-card">
+        <div class="quote">🎯 我们的设想 · 大数据驱动社会创新</div>
+        <p><strong>项目名称：</strong>“华科智慧校园 · 多源数据融合分析平台”</p>
+        <p><strong>解决什么问题：</strong>校园卡数据、选课数据、图书馆借阅数据、WiFi连接数据相互孤立，无法为教学管理提供决策支持。</p>
+        <p><strong>技术方案：</strong>搭建数据湖（Hadoop + Spark），构建学生行为画像，开发可视化大屏供教务处参考。</p>
+        <p><strong>预期成果：</strong>精准识别学业预警、优化课程安排、提升图书馆资源利用率。</p>
+        <p><strong>延伸方向：</strong>可迁移至城市治理，成为“智慧武汉”的一部分。</p>
+      </div>
+
+      <div class="summary-card">
+        <div class="quote">🥟 一起包饺子 · 致未来的数据科学家</div>
+        <p>栉风沐雨，我们见证了计算机从手工焊接到大数据时代的跨越；<br>
+        “计”往开来，我们要用数据思维书写新的历史篇章。</p>
+        <p style="margin-top: 12px; font-size: 14px;">每一位华科数据人，都可以成为下一个冯骥、下一个张小龙——用数据创造价值，用技术温暖社会。</p>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p4-home">返回第四部分首页</button>
+        <button class="btn primary" data-target="slide-finale">进入统一结语</button>
+      </div>
+    </section>
+
+    <section class="slide finale-slide" id="slide-finale" data-order="27" aria-label="统一结语页">
+      <div class="flag-faint" aria-hidden="true">
+        <span class="star big">★</span>
+        <span class="star s1">★</span>
+        <span class="star s2">★</span>
+        <span class="star s3">★</span>
+        <span class="star s4">★</span>
+      </div>
+      <h2 class="title">结语：风雨同“计”，继往开来</h2>
+      <p class="subtitle">历史脉络 · 专业价值 · 青年使命</p>
+      <article class="finale-card">
+        <p>从新中国的自主起步，到改革开放的双轮并进，再到武汉与华科的产业实践，我们小组呈现的是中国计算技术发展的连续链条。</p>
+        <p>这条链条也正是数据科学的方法论：先建设底层能力，再推进规模应用，最终在真实场景中形成价值闭环。</p>
+        <p>对数据科学与大数据技术专业而言，关键不只是掌握工具，而是把数据变成可靠判断，把模型变成可用系统，把技术变成可持续的社会效益。</p>
+        <p><strong class="highlight-yellow">“我的专业，我的国”意味着把个人成长放进国家与时代的问题里，用长期实践回应历史，也面向未来。</strong></p>
+      </article>
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-p4-summary">返回第四部分</button>
+        <button class="btn primary" data-target="slide-cover">回到总封面</button>
+        <button class="btn primary" id="endSpeechBtn">🏁 结束演讲 · 谢谢聆听</button>
+      </div>
+    </section>
   </main>
+
+  <div class="end-screen" id="endScreen" aria-hidden="true">🎓 栉风沐雨，“计”往开来 · 感谢每一位数据探索者 🎓</div>
 
   <script>
     (function () {
       const slides = Array.from(document.querySelectorAll(".slide"));
+      const bodyEl = document.body;
+      const endScreen = document.getElementById("endScreen");
+      const endSpeechBtn = document.getElementById("endSpeechBtn");
       const summaryBtn = document.getElementById("summaryBtn");
+      const p2ChoiceCBtn = document.getElementById("p2ChoiceCBtn");
+      const p3SummaryBtn = document.getElementById("p3SummaryBtn");
       const storySet = new Set([
         "slide-story-space",
         "slide-story-nuclear",
         "slide-story-computing"
       ]);
+      const p3RequiredSet = new Set([
+        "slide-p3-a",
+        "slide-p3-b",
+        "slide-p3-c",
+        "slide-p3-wrong"
+      ]);
       const visitedStories = new Set();
+      const p2VisitedChoices = new Set();
+      const p3Visited = new Set();
       let currentOrder = 1;
 
       function updateSummaryBtn() {
@@ -1118,22 +2301,81 @@
           : "📌 浏览进度 " + done + "/3（解锁总结）";
       }
 
+      function updateP2CButton() {
+        if (!p2ChoiceCBtn) return;
+        const done = p2VisitedChoices.size;
+        const ready = done === 2;
+        p2ChoiceCBtn.disabled = !ready;
+        p2ChoiceCBtn.textContent = ready
+          ? "✅ 已解锁 C 方案（中国答案）"
+          : "🔒 解锁 C 方案（" + done + "/2）";
+      }
+
+      function updateP3SummaryButton() {
+        if (!p3SummaryBtn) return;
+        const done = p3Visited.size;
+        const ready = done === p3RequiredSet.size;
+        p3SummaryBtn.disabled = !ready;
+        p3SummaryBtn.textContent = ready
+          ? "✅ 已解锁：进入第三部分总结"
+          : "📌 浏览进度 " + done + "/4（解锁总结）";
+      }
+
+      function syncBodyTheme(slide) {
+        if (!bodyEl || !slide) return;
+        bodyEl.classList.remove("bg-main", "bg-part2", "bg-part3", "bg-part4", "bg-finale");
+        if (slide.classList.contains("part2-theme")) {
+          bodyEl.classList.add("bg-part2");
+          return;
+        }
+        if (slide.classList.contains("part3-theme")) {
+          bodyEl.classList.add("bg-part3");
+          return;
+        }
+        if (slide.classList.contains("part4-theme")) {
+          bodyEl.classList.add("bg-part4");
+          return;
+        }
+        if (slide.id === "slide-finale") {
+          bodyEl.classList.add("bg-finale");
+          return;
+        }
+        bodyEl.classList.add("bg-main");
+      }
+
       function goTo(targetId) {
         const target = document.getElementById(targetId);
         if (!target) return;
+
+        syncBodyTheme(target);
+        if (endScreen) endScreen.classList.remove("show");
 
         if (storySet.has(targetId)) {
           visitedStories.add(targetId);
           updateSummaryBtn();
         }
+        if (p3RequiredSet.has(targetId)) {
+          p3Visited.add(targetId);
+          updateP3SummaryButton();
+        }
 
         const nextOrder = Number(target.dataset.order || currentOrder);
+        const outgoing = slides.find((s) => s.classList.contains("active"));
+
         slides.forEach((slide) => {
           const order = Number(slide.dataset.order || 0);
-          slide.classList.remove("active", "prev");
-          if (order < nextOrder) slide.classList.add("prev");
+          slide.classList.remove("prev");
+          if (slide !== target && order < nextOrder) slide.classList.add("prev");
+          if (slide !== target && slide !== outgoing) slide.classList.remove("active");
         });
+
         target.classList.add("active");
+        if (outgoing && outgoing !== target) {
+          outgoing.classList.add("prev");
+          setTimeout(() => {
+            outgoing.classList.remove("active");
+          }, 320);
+        }
         currentOrder = nextOrder;
       }
 
@@ -1141,11 +2383,28 @@
         const trigger = event.target.closest("[data-target]");
         if (!trigger) return;
         if (trigger.disabled) return;
+        const p2Choice = trigger.getAttribute("data-p2-choice");
+        if (p2Choice) {
+          p2VisitedChoices.add(p2Choice);
+          updateP2CButton();
+        }
         const targetId = trigger.getAttribute("data-target");
         goTo(targetId);
       });
 
+      if (endSpeechBtn && endScreen) {
+        endSpeechBtn.addEventListener("click", function () {
+          endScreen.classList.add("show");
+        });
+        endScreen.addEventListener("click", function () {
+          endScreen.classList.remove("show");
+        });
+      }
+
       updateSummaryBtn();
+      updateP2CButton();
+      updateP3SummaryButton();
+      syncBodyTheme(document.querySelector(".slide.active") || slides[0]);
     })();
   </script>
 </body>

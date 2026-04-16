@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>改革开放·计往开来｜两条腿走路</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+  --bg-a: #1a0a0a;        /* 深暗红背景 */
+  --bg-b: #2d1414;        /* 稍浅的暗红背景 */
+  --text: #ffe6e6;        /* 暖白文字 */
+  --muted: #d4a0a0;       /* 柔和红灰 */
+  --gold: #e8b4b4;        /* 玫瑰金替代金色 */
+  --cyan: #ff6b6b;        /* 主色改为暗红（替代青绿） */
+  --cyan-soft: rgba(255, 107, 107, 0.35);
+  --danger: #c62828;      /* 深红警示 */
+  --danger-soft: rgba(198, 40, 40, 0.35);
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --slide-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  --radius-xl: 22px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+}
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      color: var(--text);
+      background: radial-gradient(circle at 20% -10%, rgba(0, 229, 255, 0.14), transparent 45%),
+        radial-gradient(circle at 80% 120%, rgba(215, 178, 109, 0.12), transparent 40%),
+        linear-gradient(145deg, var(--bg-a), var(--bg-b));
+      font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 15% 30%, rgba(0, 229, 255, 0.06), transparent 32%),
+        radial-gradient(circle at 72% 52%, rgba(255, 255, 255, 0.05), transparent 30%);
+      background-size: 44px 44px, 44px 44px, auto, auto;
+      mix-blend-mode: screen;
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 36px clamp(18px, 4vw, 56px);
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(8%);
+      transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1), opacity 360ms ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+      z-index: 2;
+    }
+
+    .slide.prev {
+      transform: translateX(-8%);
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .title {
+      margin: 0;
+      font-family: "Noto Serif SC", "STSong", serif;
+      font-weight: 900;
+      letter-spacing: 1px;
+      line-height: 1.2;
+      text-wrap: balance;
+      color: #f0f8ff;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .subtitle {
+      margin: 12px 0 8px;
+      font-size: clamp(16px, 2.2vw, 25px);
+      color: var(--gold);
+      text-shadow: 0 2px 14px rgba(215, 178, 109, 0.24);
+    }
+
+    .question {
+      margin-top: 16px;
+      padding: clamp(14px, 1.8vw, 22px);
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(10px);
+      line-height: 1.7;
+      color: #d9ecf7;
+      font-size: clamp(14px, 1.5vw, 18px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+      gap: 14px;
+      flex: 1;
+      min-height: 0;
+      align-content: start;
+    }
+
+    /* 当C选项出现时，变为三列（但保持响应式） */
+    .grid.has-c {
+      grid-template-columns: repeat(3, minmax(240px, 1fr));
+    }
+
+    .choice {
+      position: relative;
+      border: 1px solid rgba(0, 229, 255, 0.6);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03));
+      color: #f1fbff;
+      text-align: left;
+      padding: 14px 14px 12px;
+      cursor: pointer;
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+      min-height: 162px;
+      overflow: hidden;
+      animation: fadeInUp 500ms ease both;
+    }
+
+    .choice:hover,
+    .choice:focus-visible {
+      transform: scale(1.05);
+      border-color: var(--cyan);
+      box-shadow: 0 10px 28px rgba(0, 229, 255, 0.22);
+      outline: none;
+    }
+
+    .choice.hidden {
+      display: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font: 600 12px/1.2 "Noto Sans SC", sans-serif;
+      background: rgba(0, 229, 255, 0.15);
+      color: #ccf8ff;
+      margin-bottom: 9px;
+    }
+
+    .choice h3 {
+      margin: 4px 0 8px;
+      font-size: clamp(18px, 2vw, 23px);
+      font-family: "Noto Serif SC", serif;
+    }
+
+    .choice p {
+      margin: 0;
+      font-size: clamp(13px, 1.45vw, 16px);
+      line-height: 1.58;
+      color: #d7e8f3;
+    }
+
+    .body-wrap {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 16px;
+      margin-top: 14px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .body-card {
+      margin-top: 0;
+      padding: 18px;
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(10px);
+      overflow: auto;
+      position: relative;
+    }
+
+    .body-card ul {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.7;
+      color: #e5f3fb;
+      font-size: clamp(14px, 1.4vw, 17px);
+    }
+
+    .body-card li + li {
+      margin-top: 9px;
+    }
+
+    .fact-box {
+      margin-top: 14px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #1b2733;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: clamp(13px, 1.35vw, 16px);
+      line-height: 1.65;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .fact-box strong {
+      color: #9b1c1c;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 2px;
+    }
+
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.2px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+      color: #d6ebf8;
+    }
+
+    .scene {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: rgba(0, 0, 0, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      min-height: 180px;
+      box-shadow: var(--slide-shadow);
+    }
+
+    .story-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(0.95) contrast(1.03);
+    }
+
+    .track-lines,
+    .warning-stripes,
+    .gold-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .track-lines {
+      background: repeating-linear-gradient(90deg, rgba(215, 178, 109, 0.35) 0 2px, transparent 2px 18px);
+      animation: slideTrack 3s linear infinite;
+    }
+
+    .warning-stripes {
+      background: repeating-linear-gradient(135deg, rgba(198, 40, 40, 0.12) 0 10px, transparent 10px 20px);
+    }
+
+    .gold-particles {
+      background:
+        radial-gradient(circle at 18% 88%, rgba(215, 178, 109, 0.5) 0 2px, transparent 2px),
+        radial-gradient(circle at 68% 80%, rgba(215, 178, 109, 0.55) 0 2px, transparent 2px),
+        radial-gradient(circle at 35% 72%, rgba(215, 178, 109, 0.38) 0 3px, transparent 3px);
+      animation: rise 7s ease-in-out infinite;
+    }
+
+    .cross {
+      display: grid;
+      place-items: center;
+      font-size: clamp(68px, 11vw, 140px);
+      color: #ff9f9f;
+      text-shadow: 0 8px 24px rgba(198, 40, 40, 0.45);
+      height: 100%;
+      animation: bounceCross 1.6s ease-in-out infinite;
+    }
+
+    .summary-card {
+      padding: 20px;
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(10px);
+      line-height: 1.8;
+      font-size: clamp(15px, 1.6vw, 19px);
+      color: #e9f6ff;
+      flex: 1;
+      overflow: auto;
+      position: relative;
+    }
+
+    .summary-card strong {
+      color: #ffd48e;
+    }
+
+    .quote {
+      margin-top: 12px;
+      font-family: "Noto Serif SC", serif;
+      font-size: clamp(18px, 2.6vw, 30px);
+      color: #ffe6b8;
+      text-shadow: 0 5px 20px rgba(215, 178, 109, 0.28);
+    }
+
+    .nav {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      background: var(--glass);
+      color: #e9f7ff;
+      font: 700 13px/1 "Orbitron", "Noto Sans SC", sans-serif;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      transition: transform 200ms ease, filter 200ms ease, background 200ms ease;
+      backdrop-filter: blur(5px);
+      user-select: none;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px) scale(1.03);
+      outline: none;
+      filter: brightness(1.12);
+    }
+
+    .btn.primary {
+      border-color: rgba(0, 229, 255, 0.65);
+      background: rgba(0, 229, 255, 0.12);
+      box-shadow: 0 8px 20px rgba(0, 229, 255, 0.16);
+    }
+
+    .btn.ghost {
+      border-color: rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      filter: grayscale(0.15);
+      transform: none;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideTrack {
+      from { transform: translateX(-20px); }
+      to { transform: translateX(20px); }
+    }
+
+    @keyframes rise {
+      0%, 100% { transform: translateY(0); opacity: 0.8; }
+      50% { transform: translateY(-12px); opacity: 1; }
+    }
+
+    @keyframes bounceCross {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @media (max-width: 1100px) {
+      .grid.has-c {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      .grid.has-c { grid-template-columns: 1fr; }
+      .body-wrap { grid-template-columns: 1fr; }
+      .slide { padding: 16px 14px 18px; }
+      .title { font-size: clamp(26px, 7vw, 38px); }
+    }
+
+    @media (min-width: 981px) {
+      .title { font-size: clamp(30px, 3.8vw, 56px); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" id="app">
+    <!-- SLIDE 1: 首页选择页 -->
+    <section class="slide active" id="slide-1" data-index="1">
+      <h1 class="title">栉风沐雨，“计”往开来</h1>
+      <p class="subtitle">改革开放·中国计算机的十字路口</p>
+
+      <div class="question">
+        1980年代，百废待兴，资金有限。计算机要服务大众，应先发展哪一条路？
+      </div>
+
+      <div class="grid" id="choiceGrid">
+        <button class="choice" data-choice="A" data-target="2">
+          <div class="tag">🔹 尖端突破</div>
+          <h3>A. 高性能超算</h3>
+          <p>举国之力研发巨型机，维护国家安全与尊严。</p>
+        </button>
+
+        <button class="choice" data-choice="B" data-target="3">
+          <div class="tag">🔹 惠及民生</div>
+          <h3>B. 普及型PC与软件</h3>
+          <p>让计算机走进工厂、学校、机关，培育应用生态。</p>
+        </button>
+
+        <!-- C选项初始隐藏 -->
+        <button class="choice hidden" id="choiceC" data-choice="C" data-target="4">
+          <div class="tag">🔸 战略智慧</div>
+          <h3>C. 两条腿走路</h3>
+          <p>先探索A和B，再解锁这条历史真相</p>
+        </button>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" id="resetBtn" disabled style="opacity:0.5">🔄 重置（已选 0/2）</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: 陷阱页A - 只选超算 -->
+    <section class="slide" id="slide-2" data-index="2">
+      <h2 class="title">❌ 单脚跳的代价</h2>
+      <p class="subtitle">只有超算，曲高和寡</p>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <div class="warning-stripes" style="position:absolute; inset:0; border-radius:inherit;"></div>
+          <ul style="position:relative; z-index:1;">
+            <li><strong>如果当年只选A（高性能超算）：</strong></li>
+            <li>• 全国懂计算机的人凤毛麟角，花巨资造出的超算，无人会用，甚至要花高价请外国专家来操作。</li>
+            <li>• 忽视了微机产业，导致国内几乎没有软件人才积累。</li>
+            <li>• 当时盗版Apple II大行其道，国家收不到税，产业也发展不起来。</li>
+            <li><strong>结果：</strong>尖端技术“悬在空中”，无法落地生根。</li>
+          </ul>
+          <div class="fact-box" style="position:relative; z-index:1;">
+            <strong>💡 历史提示：</strong>邓小平1984年参观上海小学生计算机操作时曾说：“计算机普及要从娃娃抓起。”——这暗示了国家同样重视普及。
+          </div>
+        </article>
+
+        <aside class="scene" style="background: rgba(34, 16, 18, 0.55);">
+          <div class="cross">✗</div>
+          <div class="warning-stripes"></div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="1">🔙 返回选择</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: 陷阱页B - 只选普及 -->
+    <section class="slide" id="slide-3" data-index="3">
+      <h2 class="title">❌ 单脚跳的局限</h2>
+      <p class="subtitle">只有普及，受制于人</p>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <div class="warning-stripes" style="position:absolute; inset:0; border-radius:inherit;"></div>
+          <ul style="position:relative; z-index:1;">
+            <li><strong>如果当年只选B（普及型PC与软件）：</strong></li>
+            <li>• 我们只能组装、倒卖国外的PC，一旦被制裁，立刻断供。</li>
+            <li>• 国防科技（核武器模拟、天气预报）需要超算算力，光靠卖PC解决不了。</li>
+            <li>• 在全球计算机科学界，没有超算就没有发言权。</li>
+            <li><strong>结果：</strong>下游普及沦为“高级搬运工”，核心技术受制于人。</li>
+          </ul>
+          <div class="fact-box" style="position:relative; z-index:1;">
+            <strong>💡 历史提示：</strong>1983年，中国成功研制“银河-I”巨型机（每秒1亿次）——这暗示了国家同样重视尖端攻关。
+          </div>
+        </article>
+
+        <aside class="scene" style="background: rgba(34, 16, 18, 0.55);">
+          <div class="cross">✗</div>
+          <div class="warning-stripes"></div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="1">🔙 返回选择</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: 高光页C - 两条腿走路 -->
+    <section class="slide" id="slide-4" data-index="4">
+      <h2 class="title"> 历史正解：两条腿走路</h2>
+      <p class="subtitle">伟人的战略智慧</p>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>邓小平 (1984年参观上海)：</strong>“计算机普及要从娃娃抓起。”</li>
+            <li><strong>中央决策 (1983年)：</strong>“搞巨型机，我们不惜代价。”</li>
+          </ul>
+          <div class="meta" style="margin-top: 12px;">
+            <span class="pill">1983年 · 银河-I</span>
+            <span class="pill">1984年 · 娃娃抓起</span>
+            <span class="pill">两条腿走路</span>
+          </div>
+          <ul style="margin-top: 8px;">
+            <li><strong>左腿（尖端/追赶）：</strong>1983年“银河-I”巨型机（每秒1亿次）；1992年“银河-II”问世。这是国家的“压舱石”，保证核物理、气象、石油勘探不被卡脖子。</li>
+            <li><strong>右腿（普及/民生）：</strong>1980年代引进PC生产线（长城、浪潮、联想前身）；1984年中国软件行业协会成立。这是“播种机”，让无数中国人第一次摸到键盘。</li>
+          </ul>
+          <div class="fact-box" style="margin-top: 12px;">
+            <strong>🎯 核心结论：</strong>没有普及，超算无人才可用；没有超算，普及无根基可立。二者互为表里，缺一不可。
+          </div>
+        </article>
+
+        <aside class="scene">
+          <img class="story-photo" src="https://bkimg.cdn.bcebos.com/pic/2fdda3cc7cd98d10a9d7fa112e3fb80e7bec908b"  />
+          <div class="gold-particles"></div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn primary" data-target="5">📌 进入总结页</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: 总结页 -->
+    <section class="slide" id="slide-5" data-index="5">
+      <h2 class="title">风雨同“计”，继往开来</h2>
+      <p class="subtitle">改革开放·中国计算机的成人礼</p>
+
+      <article class="summary-card">
+        <div class="gold-particles"></div>
+        <p>1980年代，中国计算机事业站在十字路口。</p>
+        <p>没有选择“先超算后普及”或“先普及后超算”，而是<strong>“两条腿走路”</strong>——</p>
+        <p><strong>尖端攻关与普惠民生并行不悖，互为支撑。</strong></p>
+        <p>这一战略智慧，为21世纪互联网浪潮的爆发储备了第一代网民和程序员，也为今日中国计算机产业的崛起奠定了根基。</p>
+        <div class="quote">“计算机普及要从娃娃抓起。”<br>——邓小平</div>
+        <p style="margin-top: 16px;"><strong>你的探索，就是与历史同行。</strong></p>
+      </article>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="1">🔄 重新挑战</button>
+        <button class="btn primary" id="nextChapterBtn">⏭️ 进入第三部分（武汉）</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const choiceC = document.getElementById('choiceC');
+      const choiceGrid = document.getElementById('choiceGrid');
+      const resetBtn = document.getElementById('resetBtn');
+      const nextChapterBtn = document.getElementById('nextChapterBtn');
+      
+      let selectedChoices = new Set(); // 记录已选的A/B
+      let current = 1;
+
+      // 显示C选项（动态出现，带动画）
+      function showCOption() {
+        if (choiceC.classList.contains('hidden')) {
+          choiceC.classList.remove('hidden');
+          choiceGrid.classList.add('has-c');
+          // 添加一点动画延迟让C选项优雅出现
+          choiceC.style.animation = 'fadeInUp 500ms ease both';
+        }
+      }
+
+      function updateResetButton() {
+        const bothSelected = selectedChoices.has('A') && selectedChoices.has('B');
+        if (bothSelected) {
+          resetBtn.disabled = false;
+          resetBtn.style.opacity = '1';
+          resetBtn.textContent = '🔄 重置选择（已选 2/2）';
+        } else {
+          resetBtn.disabled = true;
+          resetBtn.style.opacity = '0.5';
+          resetBtn.textContent = `🔄 重置（已选 ${selectedChoices.size}/2）`;
+        }
+      }
+
+      function goTo(target) {
+        const next = Number(target);
+        if (!next || next === current) return;
+
+        slides.forEach((slide) => {
+          const idx = Number(slide.dataset.index);
+          slide.classList.remove('active', 'prev');
+          if (idx < next) slide.classList.add('prev');
+        });
+
+        const incoming = document.getElementById('slide-' + next);
+        if (incoming) {
+          incoming.classList.add('active');
+          current = next;
+        }
+      }
+
+      function resetAll() {
+        selectedChoices.clear();
+        // 隐藏C选项（如果已显示）
+        if (!choiceC.classList.contains('hidden')) {
+          choiceC.classList.add('hidden');
+          choiceGrid.classList.remove('has-c');
+        }
+        updateResetButton();
+        // 重置到首页
+        goTo(1);
+      }
+
+      // 处理选择
+      function handleChoice(choiceValue, targetId) {
+        if (choiceValue === 'A' || choiceValue === 'B') {
+          // 记录选择（如果之前没选过）
+          if (!selectedChoices.has(choiceValue)) {
+            selectedChoices.add(choiceValue);
+            updateResetButton();
+            
+            // 检查是否A和B都选过了
+            if (selectedChoices.has('A') && selectedChoices.has('B')) {
+              showCOption();
+            }
+          }
+          // 跳转到对应的陷阱页
+          goTo(targetId);
+        } else if (choiceValue === 'C') {
+          // C选项只有在可见时才能点击
+          if (!choiceC.classList.contains('hidden')) {
+            goTo(targetId);
+          }
+        }
+      }
+
+      // 事件委托
+      const app = document.getElementById('app');
+      app.addEventListener('click', function (event) {
+        const trigger = event.target.closest('[data-target]');
+        if (!trigger) return;
+        
+        const target = trigger.getAttribute('data-target');
+        
+        // 如果是选择按钮（有data-choice属性）
+        const choiceValue = trigger.getAttribute('data-choice');
+        if (choiceValue) {
+          handleChoice(choiceValue, target);
+        } else {
+          // 普通导航按钮
+          goTo(target);
+        }
+      });
+
+      // 重置按钮
+      resetBtn.addEventListener('click', function () {
+        resetAll();
+      });
+
+      if (nextChapterBtn) {
+        nextChapterBtn.addEventListener('click', function () {
+          window.location.href = './slr/WuhanPart.html';
+        });
+      }
+
+      updateResetButton();
+    })();
+  </script>
+</body>
+</html>

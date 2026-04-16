@@ -789,10 +789,11 @@
         goTo(target);
       });
 
-      nextChapterBtn.addEventListener('click', function () {
-        // TODO: 接入下一部分PPT后，在此处替换为实际跳转逻辑。
-        // 示例：window.location.href = './next-chapter/index.html';
-      });
+      if (nextChapterBtn) {
+        nextChapterBtn.addEventListener('click', function () {
+          window.location.href = '../fzc/fzcppt.html';
+        });
+      }
 
       updateSummaryButton();
     })();
