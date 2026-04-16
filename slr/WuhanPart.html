@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>江城·智迹｜真假迷思版</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-a: #0a1628;
+      --bg-b: #0b2b42;
+      --text: #eaf7ff;
+      --muted: #9db7c9;
+      --gold: #d7b26d;
+      --cyan: #00e5ff;
+      --cyan-soft: rgba(0, 229, 255, 0.35);
+      --danger: #c62828;
+      --danger-soft: rgba(198, 40, 40, 0.35);
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.22);
+      --slide-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      color: var(--text);
+      background: radial-gradient(circle at 20% -10%, rgba(0, 229, 255, 0.14), transparent 45%),
+        radial-gradient(circle at 80% 120%, rgba(215, 178, 109, 0.12), transparent 40%),
+        linear-gradient(145deg, var(--bg-a), var(--bg-b));
+      font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 15% 30%, rgba(0, 229, 255, 0.06), transparent 32%),
+        radial-gradient(circle at 72% 52%, rgba(255, 255, 255, 0.05), transparent 30%);
+      background-size: 44px 44px, 44px 44px, auto, auto;
+      mix-blend-mode: screen;
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 36px clamp(18px, 4vw, 56px);
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(8%);
+      transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1), opacity 360ms ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+      z-index: 2;
+    }
+
+    .slide.prev {
+      transform: translateX(-8%);
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .page-chip {
+      align-self: flex-start;
+      font: 600 12px/1 "Orbitron", sans-serif;
+      letter-spacing: 1px;
+      color: #b6d2e2;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      padding: 8px 12px;
+      border-radius: 999px;
+      backdrop-filter: blur(4px);
+      background: rgba(255, 255, 255, 0.04);
+      margin-bottom: 12px;
+    }
+
+    .title {
+      margin: 0;
+      font-family: "Noto Serif SC", "STSong", serif;
+      font-weight: 900;
+      letter-spacing: 1px;
+      line-height: 1.2;
+      text-wrap: balance;
+      color: #f0f8ff;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+      animation: floatIn 700ms ease both;
+    }
+
+    .subtitle {
+      margin: 12px 0 8px;
+      font-size: clamp(16px, 2.2vw, 25px);
+      color: var(--gold);
+      text-shadow: 0 2px 14px rgba(215, 178, 109, 0.24);
+      animation: floatIn 760ms ease both;
+    }
+
+    .question,
+    .body-card,
+    .summary-card {
+      margin-top: 16px;
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--slide-shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      animation: floatIn 860ms ease both;
+    }
+
+    .question {
+      padding: clamp(14px, 1.8vw, 22px);
+      line-height: 1.7;
+      color: #d9ecf7;
+      font-size: clamp(14px, 1.5vw, 18px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question::after {
+      content: "? ? ?";
+      position: absolute;
+      right: 18px;
+      top: 12px;
+      font: 700 18px/1 "Orbitron", sans-serif;
+      letter-spacing: 6px;
+      color: rgba(0, 229, 255, 0.28);
+    }
+
+    .grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+      gap: 14px;
+      flex: 1;
+      min-height: 0;
+      align-content: start;
+    }
+
+    .choice {
+      position: relative;
+      border: 1px solid rgba(0, 229, 255, 0.6);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03));
+      color: #f1fbff;
+      text-align: left;
+      padding: 14px 14px 12px;
+      cursor: pointer;
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+      min-height: 162px;
+      overflow: hidden;
+      animation: floatIn 720ms ease both;
+    }
+
+    .choice[data-delay="1"] { animation-delay: 0.08s; }
+    .choice[data-delay="2"] { animation-delay: 0.2s; }
+    .choice[data-delay="3"] { animation-delay: 0.32s; }
+    .choice[data-delay="4"] { animation-delay: 0.44s; }
+
+    .choice::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 92% 12%, rgba(255, 255, 255, 0.17), transparent 34%);
+      pointer-events: none;
+    }
+
+    .choice:hover,
+    .choice:focus-visible {
+      transform: scale(1.05);
+      border-color: var(--cyan);
+      box-shadow: 0 10px 28px rgba(0, 229, 255, 0.22);
+      outline: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font: 600 12px/1.2 "Noto Sans SC", sans-serif;
+      background: rgba(0, 229, 255, 0.15);
+      color: #ccf8ff;
+      margin-bottom: 9px;
+    }
+
+    .choice h3 {
+      margin: 4px 0 8px;
+      font-size: clamp(18px, 2vw, 23px);
+      font-family: "Noto Serif SC", serif;
+    }
+
+    .choice p {
+      margin: 0;
+      font-size: clamp(13px, 1.45vw, 16px);
+      line-height: 1.58;
+      color: #d7e8f3;
+    }
+
+    .hint {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #8fb0c4;
+      text-align: center;
+      animation: floatIn 920ms ease both;
+    }
+
+    .footer-note {
+      margin-top: 8px;
+      text-align: center;
+      color: #9cb7c9;
+      font-size: 13px;
+    }
+
+    .body-wrap {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 16px;
+      margin-top: 14px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .body-card {
+      padding: 18px;
+      overflow: auto;
+    }
+
+    .body-card ul {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.7;
+      color: #e5f3fb;
+      font-size: clamp(14px, 1.4vw, 17px);
+    }
+
+    .body-card li + li {
+      margin-top: 9px;
+    }
+
+    .fact-box {
+      margin-top: 14px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #1b2733;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: clamp(13px, 1.35vw, 16px);
+      line-height: 1.65;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .fact-box strong {
+      color: #9b1c1c;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 2px;
+    }
+
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.2px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+      color: #d6ebf8;
+    }
+
+    .scene {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: rgba(0, 0, 0, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      min-height: 180px;
+      box-shadow: var(--slide-shadow);
+    }
+
+    .scene.media-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(7, 16, 28, 0.68), rgba(7, 16, 28, 0.08));
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .story-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(0.95) contrast(1.03);
+    }
+
+    .story-photo.ym-photo {
+      object-fit: contain;
+      object-position: center;
+      transform: none;
+      background: rgba(6, 16, 28, 0.55);
+    }
+
+    .scene.media-photo .fiber-lines {
+      opacity: 0.28;
+      z-index: 1;
+    }
+
+    .fiber-lines,
+    .code-rain,
+    .chip-grid,
+    .warning-stripes,
+    .gold-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .fiber-lines {
+      background:
+        radial-gradient(circle at 10% 40%, rgba(0, 229, 255, 0.45), transparent 28%),
+        repeating-linear-gradient(120deg, rgba(0, 229, 255, 0.22) 0 2px, transparent 2px 14px);
+      animation: pulseLight 4s ease-in-out infinite;
+    }
+
+    .code-rain {
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(133, 255, 185, 0.18) 0 2px,
+          transparent 2px 11px
+        );
+      mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+      animation: drift 9s linear infinite;
+    }
+
+    .chip-grid {
+      background:
+        linear-gradient(90deg, rgba(0, 229, 255, 0.12) 1px, transparent 1px),
+        linear-gradient(rgba(215, 178, 109, 0.18) 1px, transparent 1px);
+      background-size: 24px 24px, 24px 24px;
+      animation: drift 11s linear infinite reverse;
+    }
+
+    .warning-stripes {
+      background: repeating-linear-gradient(
+        135deg,
+        rgba(198, 40, 40, 0.12) 0 10px,
+        transparent 10px 20px
+      );
+    }
+
+    .gold-particles {
+      background:
+        radial-gradient(circle at 18% 88%, rgba(215, 178, 109, 0.5) 0 2px, transparent 2px),
+        radial-gradient(circle at 68% 80%, rgba(215, 178, 109, 0.55) 0 2px, transparent 2px),
+        radial-gradient(circle at 35% 72%, rgba(215, 178, 109, 0.38) 0 3px, transparent 3px),
+        radial-gradient(circle at 82% 68%, rgba(215, 178, 109, 0.48) 0 2px, transparent 2px);
+      animation: rise 7s ease-in-out infinite;
+    }
+
+    .cross {
+      display: grid;
+      place-items: center;
+      font-size: clamp(68px, 11vw, 140px);
+      color: #ff9f9f;
+      text-shadow: 0 8px 24px rgba(198, 40, 40, 0.45);
+      height: 100%;
+      animation: bounceCross 1.6s ease-in-out infinite;
+    }
+
+    .scene.media-photo .cross {
+      position: relative;
+      z-index: 2;
+    }
+
+    .summary-card {
+      padding: 20px;
+      line-height: 1.8;
+      font-size: clamp(15px, 1.6vw, 19px);
+      color: #e9f6ff;
+      flex: 1;
+      overflow: auto;
+      position: relative;
+    }
+
+    .summary-card strong {
+      color: #ffd48e;
+    }
+
+    .quote {
+      margin-top: 12px;
+      font-family: "Noto Serif SC", serif;
+      font-size: clamp(18px, 2.6vw, 30px);
+      color: #ffe6b8;
+      text-shadow: 0 5px 20px rgba(215, 178, 109, 0.28);
+    }
+
+    .nav {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      background: var(--glass);
+      color: #e9f7ff;
+      font: 700 13px/1 "Orbitron", "Noto Sans SC", sans-serif;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      transition: transform 200ms ease, filter 200ms ease, background 200ms ease;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px) scale(1.03);
+      outline: none;
+      filter: brightness(1.12);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      filter: grayscale(0.15);
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn.primary {
+      border-color: rgba(0, 229, 255, 0.65);
+      background: rgba(0, 229, 255, 0.12);
+      box-shadow: 0 8px 20px rgba(0, 229, 255, 0.16);
+    }
+
+    .btn.warn {
+      border-color: rgba(198, 40, 40, 0.5);
+      background: rgba(198, 40, 40, 0.18);
+    }
+
+    .btn.ghost {
+      border-color: rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn.end {
+      border-color: rgba(40, 40, 40, 0.8);
+      background: rgba(10, 10, 10, 0.65);
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+        overflow: auto;
+      }
+
+      .body-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .slide {
+        padding: 16px 14px 18px;
+      }
+
+      .title {
+        font-size: clamp(26px, 7vw, 38px);
+      }
+    }
+
+    @media (min-width: 981px) {
+      .title {
+        font-size: clamp(30px, 3.8vw, 56px);
+      }
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseLight {
+      0%,
+      100% { filter: brightness(0.95); }
+      50% { filter: brightness(1.14); }
+    }
+
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to { transform: translateY(26px); }
+    }
+
+    @keyframes rise {
+      0%,
+      100% { transform: translateY(0); opacity: 0.8; }
+      50% { transform: translateY(-12px); opacity: 1; }
+    }
+
+    @keyframes bounceCross {
+      0%,
+      100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" id="app" aria-live="polite">
+    <section class="slide active" id="slide-1" data-index="1" aria-label="互动首页">
+      <h1 class="title">栉风沐雨，“计”往开来</h1>
+      <p class="subtitle">武汉计算机发展史</p>
+
+      <div class="question">
+        以下四个选项中，有三个是真实的武汉计算机里程碑，有一个是“编造”的历史。
+        点击你认为真实的选项。
+      </div>
+
+      <div class="grid" role="list" aria-label="真假选项">
+        <button class="choice" data-target="2" data-delay="1" title="点击查看真实故事">
+          <div class="tag">🔹 光通信</div>
+          <h3>A. 光纤之源</h3>
+          <p>1976年，赵梓森在武汉拉制出中国第一根石英光纤。</p>
+        </button>
+
+        <button class="choice" data-target="3" data-delay="2" title="点击查看真实故事">
+          <div class="tag">🔹 基础软件</div>
+          <h3>B. 软件之魂</h3>
+          <p>1992年，冯裕才在武汉创立达梦数据库，坚持自主可控。</p>
+        </button>
+
+        <button class="choice" data-target="4" data-delay="3" title="点击查看真实故事">
+          <div class="tag">🔹 存储芯片</div>
+          <h3>C. 存储之芯</h3>
+          <p>2016年，长江存储落地武汉，成功量产3D NAND闪存。</p>
+        </button>
+
+        <button class="choice false" data-target="5" data-delay="4" title="点击查看真相">
+          <div class="tag">🔹 早期计算</div>
+          <h3>🧠 D. 城市之脑</h3>
+          <p>2020年，武汉率先建成城市级“数字大脑”，全面运行大数据分析平台。</p>
+        </button>
+      </div>
+
+      <div class="nav">
+        <button class="btn primary" id="summaryBtn" data-target="6" disabled title="需先浏览完全部选项">📌 浏览进度 0/4（解锁总结页）</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" data-index="2" aria-label="真实选项A">
+      <h2 class="title">✅ 通信之基</h2>
+      <p class="subtitle">一“纤”引未来，数据畅流万里</p>
+      <div class="meta">
+        <span class="pill">1976年</span>
+        <span class="pill">石英光纤</span>
+        <span class="pill">赵梓森</span>
+        <span class="pill">大数据传输底座</span>
+      </div>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>事件：</strong>1976年，武汉邮科院赵梓森院士在简陋实验室中拉制出中国第一根石英光纤（长度仅数米）。</li>
+            <li><strong>人物：</strong>赵梓森（1932-2022），“中国光纤之父”，带领团队用汽油灯代替精密设备，攻克玻璃提纯工艺。</li>
+            <li><strong>意义：</strong>为中国互联网、宽带通信奠定物理基础，武汉因此成为“光通信之都”。光纤是大数据时代<strong>海量数据传输的物理命脉</strong>，没有光纤，数据中心之间、云端与终端之间的数据流动将无从谈起。</li>
+            <br>
+            <li style="text-align: center; list-style: none;"><strong>“每一秒穿梭在光纤里的PB级数据，都始于这根简陋但伟大的光纤。”</strong></li>
+          </ul>
+        </article>
+
+        <aside class="scene media-photo" aria-label="配图区域">
+          <img class="story-photo" src="./Zhao.png" alt="赵梓森照片" />
+          <div class="fiber-lines"></div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="1" title="查看其他真实故事">探索其他真实故事</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-index="3" aria-label="真实选项B">
+      <h2 class="title">✅ 数据之基</h2>
+      <p class="subtitle">国产数据库的“达梦长征”</p>
+      <div class="meta">
+        <span class="pill">1992年（创业）/ 1980年代（研究）</span>
+        <span class="pill">国产数据库</span>
+        <span class="pill">关系型数据库</span>
+        <span class="pill">自主可控 · 大数据基座</span>
+      </div>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>事件：</strong>1992年，冯裕才在武汉创立达梦数据库公司（前身实验室研究始于1980年代）。</li>
+            <li><strong>人物：</strong>冯裕才（1944年生），中国数据库领域开拓者，坚持40年自主研发，拒绝外资收购。</li>
+            <li><strong>成就：</strong>达梦DM系列数据库应用于国家电网、金融、航天、政务等核心领域，国产数据库市占率第一。达梦已支持分布式、云原生、分析型场景。</li>
+            <li style="text-align: center; list-style: none;"><strong>“没有国产数据库，大数据时代的数据主权就无从谈起。”</strong></li>
+          </ul>
+        </article>
+
+        <aside class="scene media-photo" aria-label="配图区域">
+          <img class="story-photo" src="./DaMeng.jpg" alt="达梦数据库相关配图" />
+          <div class="code-rain"></div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="1" title="查看其他真实故事">探索其他真实故事</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" data-index="4" aria-label="真实选项C">
+      <h2 class="title">✅ 存储之芯</h2>
+      <p class="subtitle">世界级“光谷造”，数据永久家园</p>
+      <div class="meta">
+        <span class="pill">2016年（项目启动）</span>
+        <span class="pill">长江存储</span>
+        <span class="pill">3D NAND 闪存</span>
+        <span class="pill">大数据持久化</span>
+      </div>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>事件：</strong>2016年，长江存储（武汉新芯+国家集成电路基金）成立，2018年量产32层3D NAND，2020年发布128层，跻身全球第一梯队。</li>
+            <li><strong>人物：</strong>数千名工程师团队（以杨士宁为代表的管理与技术骨干）。</li>
+            <li><strong>意义：</strong>中国存储芯片从零到一，武汉成为国家存储器基地核心。</li>
+            <li style="text-align: center; list-style: none;"><strong>“每一颗闪存，都写满武汉‘芯’力量，也守护着海量数据的永恒记忆。”</strong></li>
+          </ul>
+        </article>
+
+        <aside class="scene media-photo" aria-label="配图区域">
+          <img class="story-photo ym-photo" src="./Yangtze%20Memory.jpg" alt="长江存储相关配图" />
+          <div class="chip-grid"></div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="1" title="查看其他真实故事">📖 探索其他真实故事</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" data-index="5" aria-label="错误选项提示页" style="background: linear-gradient(150deg, #281216, #2b2024);">
+      <h2 class="title">❌</h2>
+      <p class="subtitle">数字大脑虽好，但“率先建成”不是武汉</p>
+
+      <div class="body-wrap">
+        <article class="body-card" style="position: relative;">
+          <div class="warning-stripes"></div>
+          <ul style="position: relative; z-index: 1;">
+            <li><strong>错误选项原文：</strong>“2020年，武汉率先建成城市级‘数字大脑’，全面运行大数据分析平台。”</li>
+            <li><strong>真相：</strong>武汉确实在推进智慧城市和大数据平台（如“武汉城市大脑”、“i武汉”），但全国范围内，上海、杭州、深圳等城市更早提出并落地；武汉并未在2020年“率先建成”全面运行的“数字大脑”。</li>
+            <li><strong>武汉真实的大数据进展：</strong>2021年武汉获批国家新一代人工智能创新发展试验区；2022年武汉大数据交易所成立（中部首家）；2023年武汉超算中心与人工智能计算中心形成“双中心”算力集群。</li>
+          </ul>
+          <div class="fact-box" style="position: relative; z-index: 1;">
+            <strong>官方新闻对照提示：</strong>可引用“武汉获批国家新一代人工智能创新发展试验区”、“武汉大数据交易所揭牌成立”、“武汉人工智能计算中心上线”等公开报道标题进行核验。
+          </div>
+        </article>
+
+        <aside class="scene media-photo" aria-label="警示动画区域" style="background: rgba(34, 16, 18, 0.55);">
+          <img class="story-photo" src="./CityBrain.jpg" alt="城市大脑示意图" />
+          <div class="warning-stripes"></div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="1" title="回到首页再次选择">🔙 返回首页</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6" data-index="6" aria-label="总结致谢页">
+      <h2 class="title">风雨同“计”，继往开来</h2>
+      <p class="subtitle">三大真实成就，共同塑造武汉计算机脊梁</p>
+
+      <article class="summary-card">
+        <div class="gold-particles"></div>
+        光纤、数据库、闪存——
+        三大真实成就，一个共同基因：<strong>武汉计算机人敢为人先、自主创新</strong>。
+        从第一根光纤到第一颗闪存，再到国产数据库的坚守，
+        武汉始终是中国计算机事业的重要一极。
+        <strong>你的选择，就是历史的回响。</strong>
+        感谢探索！请继续关注“计”往开来的下一个篇章。
+      </article>
+
+      <div class="nav">
+        <button class="btn primary" data-target="1" title="回到首页再次挑战">🔄 重新挑战</button>
+        <button class="btn end" id="nextChapterBtn" title="衔接到下一部分演示">⏭️ 进入下一章</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const app = document.getElementById('app');
+      const nextChapterBtn = document.getElementById('nextChapterBtn');
+      const summaryBtn = document.getElementById('summaryBtn');
+      const requiredSlides = new Set([2, 3, 4, 5]);
+      const visitedChoices = new Set();
+      let current = 1;
+
+      function updateSummaryButton() {
+        if (!summaryBtn) return;
+        const done = visitedChoices.size;
+        const allDone = done === requiredSlides.size;
+        summaryBtn.disabled = !allDone;
+        summaryBtn.textContent = allDone
+          ? '✅ 最终总结页'
+          : '📌 浏览进度 ' + done + '/4';
+      }
+
+      function goTo(target) {
+        const next = Number(target);
+        if (!next || next === current) return;
+
+        if (requiredSlides.has(next)) {
+          visitedChoices.add(next);
+          updateSummaryButton();
+        }
+
+        if (next === 6 && visitedChoices.size !== requiredSlides.size) {
+          return;
+        }
+
+        slides.forEach((slide) => {
+          const idx = Number(slide.dataset.index);
+          slide.classList.remove('active', 'prev');
+          if (idx < next) slide.classList.add('prev');
+        });
+
+        const incoming = document.getElementById('slide-' + next);
+        if (incoming) {
+          incoming.classList.add('active');
+          current = next;
+        }
+      }
+
+      app.addEventListener('click', function (event) {
+        const trigger = event.target.closest('[data-target]');
+        if (!trigger) return;
+        const target = trigger.getAttribute('data-target');
+        goTo(target);
+      });
+
+      nextChapterBtn.addEventListener('click', function () {
+        // TODO: 接入下一部分PPT后，在此处替换为实际跳转逻辑。
+        // 示例：window.location.href = './next-chapter/index.html';
+      });
+
+      updateSummaryButton();
+    })();
+  </script>
+</body>
+</html>
