@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>数海铸国·星火纪年｜我的专业（数据科学与大数据技术）我的国</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&family=Orbitron:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg-start: #170722;
+      --bg-end: #4b0f37;
+      --text: #e9f5ff;
+      --muted: #a6bfd3;
+      --gold: #ff9fcb;
+      --true-accent: #d66bff;
+      --false-accent: #ff5578;
+      --accent-rgb: 214, 107, 255;
+      --warn-rgb: 255, 85, 120;
+      --warning-page-rgb: 255, 206, 84;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.24);
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --shadow: 0 20px 56px rgba(0, 0, 0, 0.34);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      color: var(--text);
+      font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(1400px 840px at 18% 14%, rgba(var(--accent-rgb), 0.32), transparent 62%),
+        radial-gradient(1200px 760px at 84% 78%, rgba(var(--warn-rgb), 0.3), transparent 60%),
+        radial-gradient(960px 620px at 54% 56%, rgba(122, 46, 158, 0.28), transparent 68%),
+        linear-gradient(155deg, #080410 0%, #13051f 36%, #250a2a 64%, #3c0f31 100%),
+        url("./image_for_groupmajorPPT/NGC_7293.jpg");
+      background-size: auto, auto, auto, auto, cover;
+      background-position: center, center, center, center, center;
+      background-repeat: no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1.2px 1.2px at 16% 24%, rgba(255, 255, 255, 0.92), transparent 98%),
+        radial-gradient(1.6px 1.6px at 44% 30%, rgba(255, 234, 252, 0.88), transparent 98%),
+        radial-gradient(1.8px 1.8px at 68% 18%, rgba(255, 246, 255, 0.85), transparent 98%),
+        radial-gradient(1.3px 1.3px at 82% 40%, rgba(255, 236, 247, 0.82), transparent 98%),
+        radial-gradient(1.4px 1.4px at 10% 62%, rgba(255, 255, 255, 0.84), transparent 98%),
+        radial-gradient(1.7px 1.7px at 30% 74%, rgba(255, 224, 246, 0.82), transparent 98%),
+        radial-gradient(1.2px 1.2px at 56% 64%, rgba(255, 255, 255, 0.88), transparent 98%),
+        radial-gradient(1.5px 1.5px at 74% 78%, rgba(255, 229, 251, 0.82), transparent 98%),
+        radial-gradient(1.3px 1.3px at 92% 68%, rgba(255, 255, 255, 0.78), transparent 98%),
+        radial-gradient(1px 1px at 22% 46%, rgba(255, 255, 255, 0.75), transparent 98%),
+        radial-gradient(1px 1px at 48% 52%, rgba(255, 255, 255, 0.72), transparent 98%),
+        radial-gradient(1px 1px at 70% 56%, rgba(255, 255, 255, 0.7), transparent 98%),
+        radial-gradient(1px 1px at 88% 22%, rgba(255, 236, 255, 0.7), transparent 98%);
+      opacity: 0.86;
+      filter: drop-shadow(0 0 3px rgba(255, 220, 248, 0.26));
+      animation: twinkle 6.2s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      pointer-events: none;
+      background:
+        radial-gradient(56% 48% at 22% 32%, rgba(206, 108, 255, 0.3), transparent 70%),
+        radial-gradient(52% 44% at 78% 64%, rgba(255, 107, 170, 0.28), transparent 72%),
+        conic-gradient(
+          from 40deg at 58% 50%,
+          transparent 0deg,
+          rgba(212, 103, 255, 0.14) 50deg,
+          rgba(255, 129, 186, 0.16) 118deg,
+          transparent 186deg,
+          rgba(170, 92, 244, 0.15) 252deg,
+          transparent 360deg
+        );
+      filter: blur(16px) saturate(1.1);
+      mix-blend-mode: screen;
+      animation: drift 22s linear infinite;
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .charm-widget {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 40;
+      width: 200px;
+      pointer-events: none;
+    }
+
+    .charm-box {
+      position: relative;
+      width: 200px;
+      height: 170px;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .pendant {
+      position: absolute;
+      top: 0;
+      left: var(--x);
+      transform-origin: top center;
+      opacity: 0;
+      animation:
+        pendantIntro 980ms cubic-bezier(0.15, 0.78, 0.28, 1.25) forwards,
+        pendantSway var(--period) ease-in-out infinite alternate;
+      animation-delay: var(--delay), calc(var(--delay) + 980ms);
+    }
+
+    .line {
+      display: block;
+      width: 2px;
+      height: var(--line-len);
+      margin: 0 auto;
+      border-radius: 2px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), rgba(var(--accent-rgb), 0.78));
+      transform: scaleY(0.08);
+      transform-origin: top center;
+      animation: lineDrop 460ms ease forwards;
+      animation-delay: var(--delay);
+    }
+
+    .charm {
+      display: block;
+      margin-top: 7px;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      font-size: var(--size);
+      line-height: 1;
+      filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 7px rgba(var(--accent-rgb), 0.35));
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Noto Sans SC", sans-serif;
+      user-select: none;
+    }
+
+    .p1 { --x: 24px; --line-len: 84px; --size: 28px; --delay: 0ms; --sway: 4deg; --period: 4.4s; }
+    .p2 { --x: 66px; --line-len: 112px; --size: 34px; --delay: 120ms; --sway: 7deg; --period: 6.1s; }
+    .p3 { --x: 114px; --line-len: 76px; --size: 24px; --delay: 220ms; --sway: 3deg; --period: 3.6s; }
+    .p4 { --x: 156px; --line-len: 96px; --size: 30px; --delay: 320ms; --sway: 5deg; --period: 5.2s; }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 34px clamp(18px, 4vw, 56px);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(10%);
+      transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1), opacity 360ms ease;
+      overflow: auto;
+      scrollbar-width: thin;
+    }
+
+    .slide::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .slide::-webkit-scrollbar-thumb {
+      background: rgba(var(--accent-rgb), 0.75);
+      border-radius: 10px;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+      z-index: 2;
+    }
+
+    .slide.prev {
+      transform: translateX(-10%);
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .page-chip {
+      align-self: flex-start;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--accent-rgb), 0.55);
+      background: rgba(var(--accent-rgb), 0.18);
+      color: #ffe8fa;
+      font: 600 12px/1 "Orbitron", sans-serif;
+      letter-spacing: 1px;
+      backdrop-filter: blur(4px);
+    }
+
+    .title {
+      margin: 0;
+      font-family: "Noto Serif SC", "STSong", serif;
+      font-weight: 900;
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: 1.2;
+      letter-spacing: 0.6px;
+      background: linear-gradient(135deg, #ffffff, #f4b6ff, #ff8eb6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.34);
+      animation: floatIn 720ms ease both;
+    }
+
+    .title-emoji {
+      display: inline-block;
+      margin-right: 8px;
+      background: none !important;
+      color: #fff0fb;
+      -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      -webkit-text-fill-color: currentColor;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.36);
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Noto Sans SC", sans-serif;
+      font-size: 0.88em;
+      vertical-align: 0.05em;
+    }
+
+    .subtitle {
+      margin-top: 12px;
+      color: var(--gold);
+      font-size: clamp(16px, 2.3vw, 24px);
+      padding-left: 14px;
+      border-left: 3px solid var(--gold);
+      animation: floatIn 860ms ease both;
+    }
+
+    .question,
+    .body-card,
+    .summary-card {
+      margin-top: 18px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-border);
+      background: linear-gradient(150deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.04));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      animation: floatIn 980ms ease both;
+    }
+
+    .cover-panel {
+      margin-top: 24px;
+      max-width: 860px;
+      padding: 24px 22px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(var(--accent-rgb), 0.35);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      animation: floatIn 900ms ease both;
+    }
+
+    .cover-kicker {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--accent-rgb), 0.55);
+      background: rgba(var(--accent-rgb), 0.18);
+      color: #ffe8fb;
+      font: 700 12px/1 "Orbitron", "Noto Sans SC", sans-serif;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .cover-title {
+      margin: 0;
+      font-family: "Noto Serif SC", serif;
+      font-weight: 900;
+      font-size: clamp(38px, 6.8vw, 80px);
+      line-height: 1.1;
+      letter-spacing: 1px;
+      color: #fff3fd;
+      text-shadow: 0 8px 22px rgba(0, 0, 0, 0.36);
+    }
+
+    .cover-subtitle {
+      margin-top: 10px;
+      color: #ffd4f0;
+      font-size: clamp(16px, 2.2vw, 24px);
+      line-height: 1.5;
+      max-width: 760px;
+    }
+
+    .cover-note {
+      margin-top: 14px;
+      color: #f0d9ea;
+      line-height: 1.7;
+      max-width: 760px;
+      font-size: clamp(14px, 1.45vw, 18px);
+    }
+
+    .question {
+      position: relative;
+      padding: 18px 22px;
+      color: #d9edfb;
+      line-height: 1.7;
+      font-size: clamp(14px, 1.45vw, 18px);
+      overflow: hidden;
+    }
+
+    .question::after {
+      content: "DATA";
+      position: absolute;
+      right: 16px;
+      top: 10px;
+      color: rgba(var(--accent-rgb), 0.34);
+      font: 700 18px/1 "Orbitron", sans-serif;
+      letter-spacing: 3px;
+    }
+
+    .grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+      gap: 14px;
+      align-content: start;
+    }
+
+    .grid.triple {
+      grid-template-columns: repeat(3, minmax(220px, 1fr));
+    }
+
+    .choice {
+      position: relative;
+      text-align: left;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(var(--accent-rgb), 0.56);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+      color: #f1fbff;
+      padding: 15px 14px 13px;
+      min-height: 162px;
+      cursor: pointer;
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+      overflow: hidden;
+      animation: floatIn 760ms ease both;
+    }
+
+    .choice[data-delay="1"] { animation-delay: 0.08s; }
+    .choice[data-delay="2"] { animation-delay: 0.2s; }
+    .choice[data-delay="3"] { animation-delay: 0.32s; }
+    .choice[data-delay="4"] { animation-delay: 0.44s; }
+
+    .choice::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.16), transparent 34%);
+      pointer-events: none;
+    }
+
+    .choice:hover,
+    .choice:focus-visible {
+      transform: scale(1.04);
+      border-color: var(--true-accent);
+      box-shadow: 0 10px 26px rgba(var(--accent-rgb), 0.32);
+      outline: none;
+    }
+
+    .choice.false-candidate {
+      border-color: rgba(255, 255, 255, 0.24);
+    }
+
+    .choice.false-candidate .tag {
+      background: rgba(255, 255, 255, 0.1);
+      color: #dce9f6;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(var(--accent-rgb), 0.2);
+      color: #ffdff8;
+      font: 600 12px/1 "Noto Sans SC", sans-serif;
+      margin-bottom: 10px;
+    }
+
+    .choice h3 {
+      margin: 4px 0 8px;
+      font-family: "Noto Serif SC", serif;
+      font-size: clamp(19px, 2vw, 24px);
+      color: #f4fbff;
+    }
+
+    .choice p {
+      margin: 0;
+      color: #d7e8f3;
+      font-size: clamp(13px, 1.42vw, 16px);
+      line-height: 1.55;
+    }
+
+    .meta {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.08);
+      color: #d6ebf8;
+    }
+
+    .body-wrap {
+      margin-top: 14px;
+      display: grid;
+      gap: 14px;
+      grid-template-columns: minmax(420px, 1.15fr) minmax(360px, 1fr);
+      align-items: stretch;
+    }
+
+    .body-card {
+      padding: 18px 18px 16px;
+      min-height: clamp(300px, 46vh, 500px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .body-card::before {
+      content: "CN DATA NOTEBOOK";
+      position: absolute;
+      right: 14px;
+      top: 12px;
+      font: 700 11px/1 "Orbitron", "Noto Sans SC", sans-serif;
+      letter-spacing: 0.8px;
+      color: rgba(255, 234, 246, 0.92);
+      background: rgba(var(--accent-rgb), 0.18);
+      border: 1px solid rgba(var(--accent-rgb), 0.42);
+      border-radius: 999px;
+      padding: 5px 9px;
+      z-index: 2;
+    }
+
+    .body-card::after {
+      content: "";
+      position: absolute;
+      right: -22px;
+      bottom: -22px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(var(--accent-rgb), 0.2), transparent 58%),
+        radial-gradient(circle at 70% 65%, rgba(var(--warn-rgb), 0.18), transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .body-card ul {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.76;
+      color: #dbeeff;
+      position: relative;
+      z-index: 1;
+    }
+
+    .body-card li {
+      margin-bottom: 10px;
+    }
+
+    .body-card strong {
+      color: #ffffff;
+    }
+
+    .scene {
+      position: relative;
+      min-height: clamp(300px, 46vh, 500px);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background:
+        radial-gradient(circle at 20% 25%, rgba(var(--accent-rgb), 0.28), transparent 34%),
+        radial-gradient(circle at 72% 70%, rgba(var(--warn-rgb), 0.22), transparent 34%),
+        rgba(24, 7, 29, 0.62);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 18px;
+    }
+
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.035) 0 1px,
+          transparent 1px 20px
+        );
+      pointer-events: none;
+      animation: drift 10s linear infinite reverse;
+      z-index: 2;
+      opacity: 0.28;
+    }
+
+    .scene-text {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 12px;
+      z-index: 3;
+      font-family: "Noto Serif SC", serif;
+      color: #fff0fb;
+      line-height: 1.6;
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: linear-gradient(to right, rgba(15, 7, 23, 0.78), rgba(15, 7, 23, 0.46));
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .story-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      filter: saturate(1.08) contrast(1.04);
+      background: rgba(8, 4, 14, 0.9);
+      padding: 12px;
+      opacity: 0.92;
+      z-index: 1;
+    }
+
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(17, 5, 24, 0.8), rgba(17, 5, 24, 0.06));
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .warning-photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(35, 24, 7, 0.8), rgba(35, 24, 7, 0.22));
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .truth-mark {
+      margin-top: 14px;
+      display: inline-block;
+      border-left: 4px solid var(--true-accent);
+      background: rgba(var(--accent-rgb), 0.2);
+      color: #ffe7fb;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .warning-slide {
+      background:
+        linear-gradient(150deg, #2c220f, #5b3f13),
+        radial-gradient(circle at 80% 20%, rgba(var(--warning-page-rgb), 0.34), transparent 52%);
+    }
+
+    .warning-slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          -35deg,
+          rgba(var(--warning-page-rgb), 0.2) 0 12px,
+          transparent 12px 24px
+        );
+      opacity: 0.14;
+      z-index: 0;
+    }
+
+    .warning-slide .title {
+      background: linear-gradient(135deg, #fffdf3, #ffe7a9, #ffc247);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .nav {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--glass-border);
+      padding: 10px 16px;
+      color: #e9f7ff;
+      background: var(--glass);
+      font: 700 13px/1 "Orbitron", "Noto Sans SC", sans-serif;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      transition: transform 200ms ease, filter 200ms ease, background 200ms ease, border-color 200ms ease;
+      text-decoration: none;
+      user-select: none;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px) scale(1.03);
+      filter: brightness(1.12);
+      outline: none;
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+      filter: none;
+    }
+
+    .btn.primary {
+      border-color: rgba(var(--accent-rgb), 0.72);
+      background: rgba(var(--accent-rgb), 0.2);
+      box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.27);
+    }
+
+    .btn.warn {
+      border-color: rgba(var(--warning-page-rgb), 0.74);
+      background: rgba(var(--warning-page-rgb), 0.24);
+    }
+
+    .btn.ghost {
+      border-color: rgba(255, 255, 255, 0.36);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .summary-card {
+      margin-top: 18px;
+      padding: 24px 20px;
+      line-height: 1.84;
+      color: #f2f9ff;
+      font-size: clamp(15px, 1.42vw, 18px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(var(--warn-rgb), 0.18), transparent 34%),
+        radial-gradient(circle at 80% 80%, rgba(var(--accent-rgb), 0.27), transparent 38%);
+      pointer-events: none;
+    }
+
+    .summary-card strong {
+      position: relative;
+      color: #ffd9f0;
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes drift {
+      0% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(2%, -2%, 0); }
+      100% { transform: translate3d(0, 0, 0); }
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.62; transform: scale(1); }
+      50% { opacity: 0.92; transform: scale(1.015); }
+      100% { opacity: 0.62; transform: scale(1); }
+    }
+
+    @keyframes lineDrop {
+      0% { transform: scaleY(0); opacity: 0.15; }
+      100% { transform: scaleY(1); opacity: 1; }
+    }
+
+    @keyframes pendantIntro {
+      0% { opacity: 0; transform: translateY(-6px) rotate(0deg); }
+      35% { transform: translateY(16px) rotate(-8deg); }
+      58% { transform: translateY(4px) rotate(7deg); }
+      74% { transform: translateY(11px) rotate(-5deg); }
+      100% { opacity: 1; transform: translateY(9px) rotate(0deg); }
+    }
+
+    @keyframes pendantSway {
+      0% { transform: translateY(9px) rotate(calc(var(--sway) * -1)); }
+      100% { transform: translateY(9px) rotate(var(--sway)); }
+    }
+
+    @media (max-width: 980px) {
+      .slide {
+        padding: 16px 14px 18px;
+      }
+
+      .grid,
+      .grid.triple,
+      .body-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .body-card,
+      .scene {
+        min-height: auto;
+      }
+
+      .charm-widget {
+        top: 8px;
+        right: 8px;
+        width: 172px;
+      }
+
+      .charm-box {
+        width: 172px;
+        height: 146px;
+      }
+
+      .p1 { --x: 18px; --line-len: 72px; --size: 22px; }
+      .p2 { --x: 54px; --line-len: 92px; --size: 26px; }
+      .p3 { --x: 94px; --line-len: 66px; --size: 20px; }
+      .p4 { --x: 132px; --line-len: 82px; --size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" id="app">
+    <div class="charm-widget" id="charmWidget" aria-label="吊坠装饰">
+      <div class="charm-box" aria-hidden="true">
+        <div class="pendant p1"><span class="line"></span><span class="charm">✈️</span></div>
+        <div class="pendant p2"><span class="line"></span><span class="charm">🚀</span></div>
+        <div class="pendant p3"><span class="line"></span><span class="charm">⭐</span></div>
+        <div class="pendant p4"><span class="line"></span><span class="charm">🌙</span></div>
+      </div>
+    </div>
+
+    <section class="slide active" id="slide-cover" data-order="1" aria-label="封面页">
+      <div class="page-chip">第一部分 · 数海铸国·星火纪年</div>
+      <div class="cover-panel">
+        <div class="cover-kicker">MY MAJOR · MY COUNTRY</div>
+        <h1 class="cover-title">我的专业 我的国</h1>
+        <p class="cover-subtitle">数据科学与大数据技术 · 新中国科技脊梁叙事</p>
+        <p class="cover-note">
+          本篇为项目第一部分，聚焦 1949—1970s 的关键科技历程。
+          你将从国家战略与青年报国两条线进入历史现场，理解“数据能力”如何成为国家能力。
+        </p>
+      </div>
+      <div class="nav">
+        <button class="btn primary" data-target="slide-home">进入第一部分</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-home" data-order="2" aria-label="首页">
+      <div class="page-chip">数海铸国·星火纪年</div>
+      <h1 class="title">我的专业（数据科学与大数据技术）我的国</h1>
+      <p class="subtitle">新中国数据脊梁 · 聚焦 1949—1970s</p>
+
+      <div class="question">
+        你将以“两重身份”进入历史：
+        先做国家战略抉择，再成为报国青年进入具体领域。
+        每一次选择，都会影响技术路线与时代进程。
+      </div>
+
+      <div class="question">
+        作为新中国建设初期的领导者，面对西方封锁，应当如何布局科技发展？
+      </div>
+
+      <div class="grid triple">
+        <button class="choice" data-target="slide-strategy-correct" data-delay="1">
+          <span class="tag">国家战略</span>
+          <h3>A. 自主研发</h3>
+          <p>集中力量攻关关键技术，建立自主工业与科研体系，形成长期安全与发展能力。</p>
+        </button>
+
+        <button class="choice false-candidate" data-target="slide-warning-direct" data-delay="2">
+          <span class="tag">国家战略</span>
+          <h3>B. 先发展其他部分</h3>
+          <p>短期看似降压，但核心技术长期空心化，关键时刻会被“卡脖子”。</p>
+        </button>
+
+        <button class="choice" data-target="slide-strategy-balanced" data-delay="3">
+          <span class="tag">国家战略</span>
+          <h3>C. 向苏联求助</h3>
+          <p>阶段性外援可以借力，但不能代替自主能力建设，最终仍要立足自立自强。</p>
+        </button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-strategy-correct" data-order="3" aria-label="正确策略页">
+      <h2 class="title"><span class="title-emoji" aria-hidden="true">✅</span>自主研发：长期最优解</h2>
+      <p class="subtitle">以我为主，自力更生，关键技术必须握在自己手中</p>
+
+      <div class="meta">
+        <span class="pill">1953—1957 一五计划</span>
+        <span class="pill">1956 科技规划纲要</span>
+        <span class="pill">1964 原子弹成功</span>
+        <span class="pill">1967 氢弹成功</span>
+        <span class="pill">1970 东方红一号</span>
+      </div>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>战略逻辑：</strong>在外部封锁条件下，核心工业链、科研链、计算链若不自主，就无法形成稳定的国家能力。</li>
+            <li><strong>工程抓手：</strong>“一五计划”中以重工业与基础设施为骨架，逐步建立材料、制造、能源、通信等底层体系。</li>
+            <li><strong>政策支撑：</strong>1956 年《1956—1967 年科学技术发展远景规划纲要》推动重点学科协同，计算技术、自动化等方向被持续强化。</li>
+            <li><strong>数据视角：</strong>从核试验到航天任务，都要经历“采样-建模-仿真-复核-迭代”流程，本质就是现代数据科学工作流。</li>
+            <li><strong>专业连接：</strong>你今天学的数据科学与大数据技术，对应的是国家级复杂系统中的预测、优化与决策支持能力。</li>
+          </ul>
+        </article>
+        <aside class="scene">
+          <img class="story-photo" src="./image_for_groupmajorPPT/Dongfanghong-1.jpg" alt="东方红一号相关历史图片" />
+          <div class="photo-overlay"></div>
+          <div class="scene-text">
+            从算盘到电子计算，<br />
+            从手工统计到系统建模。<br />
+            <strong>这就是“数据报国”的起点。</strong>
+          </div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn primary" data-target="slide-youth-select">进入青年抉择</button>
+        <button class="btn ghost" data-target="slide-home">返回首页</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-strategy-balanced" data-order="4" aria-label="阶段协作页">
+      <h2 class="title"><span class="title-emoji" aria-hidden="true">⚠️</span>阶段借力可以，但不能路径依赖</h2>
+      <p class="subtitle">历史表明：可合作、可学习，但核心能力必须自主可控</p>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>历史经验：</strong>阶段性技术协作在早期工业建设中有帮助，特别是在设备、流程和人才培养层面。</li>
+            <li><strong>关键转折：</strong>外部环境一旦变化，技术支持可能中断；如果底层能力未形成，就会出现系统性被动。</li>
+            <li><strong>方法论：</strong>可“引进学习”，但必须“消化吸收再创新”，把外部经验转化为本土可持续能力。</li>
+            <li><strong>数据专业启示：</strong>算法框架可参考，但核心模型、数据标准、算力平台和治理规范要自己可控。</li>
+            <li><strong>现实映射：</strong>今天谈模型国产化、算力底座、数据要素流通，本质仍是“协作开放 + 能力自主”的平衡题。</li>
+          </ul>
+        </article>
+        <aside class="scene">
+          <img class="story-photo" src="./image_for_groupmajorPPT/strategy-sino-soviet.jpg" alt="建国初期中苏协作相关历史图片" />
+          <div class="photo-overlay"></div>
+          <div class="scene-text">
+            借梯登高，不等于把梯子交给别人。<br />
+            <strong>真正可持续的是自主体系。</strong>
+          </div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn primary" data-target="slide-youth-select">我已理解，进入青年抉择</button>
+        <button class="btn ghost" data-target="slide-home">返回首页重选</button>
+      </div>
+    </section>
+
+    <section class="slide warning-slide" id="slide-warning-direct" data-order="5" aria-label="错误警示页">
+      <h2 class="title"><span class="title-emoji" aria-hidden="true">❌</span>决策警示</h2>
+      <p class="subtitle">“先不做核心技术”会在关键时刻失去战略主动权</p>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>错误选项原文：</strong>先着重发展其他部分。</li>
+            <li><strong>直接风险：</strong>若长期忽视关键技术，会形成“产业链在、核心不在”的结构性脆弱，关键节点受制于人。</li>
+            <li><strong>时间成本：</strong>核心能力后置，往往不是“晚几年”，而是可能错过一整代技术窗口，追赶成本指数级上升。</li>
+            <li><strong>历史启示：</strong>我国在高压环境下仍坚持推进关键科技工程，说明战略领域必须“先立后破、先算后建”。</li>
+            <li><strong>数据后果：</strong>一旦核心平台缺失，数据采集、处理、存储、分析全链条都无法独立闭环。</li>
+            <li><strong>纠偏建议：</strong>回到“自主研发 + 系统布局 + 人才梯队”的路径，再进入下一阶段选择。</li>
+          </ul>
+        </article>
+        <aside class="scene" style="border-color: rgba(var(--warning-page-rgb), 0.62);">
+          <img class="story-photo" src="./image_for_groupmajorPPT/1965-01_1964年_首次原子弹爆炸.jpg" alt="中国首次原子弹爆炸历史照片" />
+          <div class="warning-photo-overlay"></div>
+          <div class="scene-text">
+            核心技术不是“以后再说”。<br />
+            <strong>晚一步，可能就会慢一代。</strong>
+          </div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn warn" data-target="slide-home">返回首页重选</button>
+        <button class="btn primary" data-target="slide-strategy-correct">查看正确策略</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-youth-select" data-order="6" aria-label="青年选择页">
+      <div class="page-chip">开放选择 · 青年报国</div>
+      <h2 class="title">成为有志青年，你投身哪个领域？</h2>
+      <p class="subtitle">领域映射历史事件与国家政策，进入代表人物故事线</p>
+
+      <div class="question">
+        请选择你的“时代身份”。你可以全部探索，再解锁最终总结页。
+      </div>
+
+      <div class="grid triple">
+        <button class="choice" data-target="slide-story-space" data-delay="1">
+          <span class="tag">航天系统</span>
+          <h3>A. 钱学森方向</h3>
+          <p>围绕导弹与卫星任务，参与轨道计算、系统工程与发射窗口数据推演。</p>
+        </button>
+
+        <button class="choice" data-target="slide-story-nuclear" data-delay="2">
+          <span class="tag">核工程</span>
+          <h3>B. 邓稼先方向</h3>
+          <p>围绕核试验与理论验证，承担极端条件下的数据校核、模型修正与风险评估。</p>
+        </button>
+
+        <button class="choice" data-target="slide-story-computing" data-delay="3">
+          <span class="tag">计算机科学</span>
+          <h3>C. 夏培肃方向</h3>
+          <p>参与中国早期计算技术建设，把大规模手工计算转向机器计算与程序化处理。</p>
+        </button>
+      </div>
+
+      <div class="nav">
+        <button class="btn primary" id="summaryBtn" data-target="slide-summary" disabled>📌 浏览进度 0/3（解锁总结）</button>
+        <button class="btn ghost" data-target="slide-home">返回首页</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-story-space" data-order="7" aria-label="航天故事页">
+      <div class="truth-mark">航天系统 · 钱学森代表</div>
+      <h2 class="title">你选择了：轨道与系统工程</h2>
+      <p class="subtitle">“东方红一号”背后，是海量计算与系统协同</p>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>人物原型：</strong>钱学森推动系统工程方法在重大航天工程中的组织与落地，强调“总体统筹 + 分系统协同”。</li>
+            <li><strong>历史节点：</strong>1970 年 4 月 24 日，“东方红一号”发射成功，标志中国进入人造卫星时代。</li>
+            <li><strong>你的任务：</strong>参与轨道参数、姿态控制、结构载荷、窗口时序等关键数据计算，持续做误差闭环校核。</li>
+            <li><strong>工程约束：</strong>每一个参数都受到质量、推力、温度、通信时延等多因素耦合，单点误差会级联放大。</li>
+            <li><strong>数据科学对应能力：</strong>数值计算、最优化、误差传播分析、复杂系统建模与多源数据融合。</li>
+          </ul>
+        </article>
+        <aside class="scene">
+          <img class="story-photo" src="./image_for_groupmajorPPT/歸國後的錢學森.png" alt="钱学森历史照片" />
+          <div class="photo-overlay"></div>
+          <div class="scene-text">
+            一次发射背后，<br />
+            是千万次计算与校验。<br />
+            <strong>数据决定“能不能飞、飞得准不准”。</strong>
+          </div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-youth-select">返回青年选择</button>
+        <button class="btn primary" data-target="slide-summary">进入总结页</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-story-nuclear" data-order="8" aria-label="核工程故事页">
+      <div class="truth-mark">核工程 · 邓稼先代表</div>
+      <h2 class="title">你选择了：极限环境下的数据校核</h2>
+      <p class="subtitle">1964 原子弹、1967 氢弹，背后是理论与数据的硬碰硬</p>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>人物原型：</strong>邓稼先长期扎根一线，在高保密、高压力环境下推进核理论与工程协同。</li>
+            <li><strong>历史节点：</strong>1964 年 10 月 16 日首颗原子弹成功；1967 年 6 月 17 日首颗氢弹成功。</li>
+            <li><strong>你的任务：</strong>处理观测数据、执行参数反演、校验理论模型，确保计算结果与实测信号可闭环解释。</li>
+            <li><strong>工程难点：</strong>样本少、噪声高、条件极端，需要在不完美数据中做高可信度推断。</li>
+            <li><strong>数据科学对应能力：</strong>统计推断、异常检测、不确定性评估、模型验证与高风险决策支持。</li>
+          </ul>
+        </article>
+        <aside class="scene">
+          <img class="story-photo" src="./image_for_groupmajorPPT/Deng_Jiaxian_1949.jpg" alt="邓稼先历史照片" />
+          <div class="photo-overlay"></div>
+          <div class="scene-text">
+            数据不是“记录结果”，<br />
+            数据本身就是“决策武器”。<br />
+            <strong>每一个数值都关乎国家安全。</strong>
+          </div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-youth-select">返回青年选择</button>
+        <button class="btn primary" data-target="slide-summary">进入总结页</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-story-computing" data-order="9" aria-label="计算机故事页">
+      <div class="truth-mark">计算技术 · 夏培肃代表</div>
+      <h2 class="title">你选择了：机器计算与程序化处理</h2>
+      <p class="subtitle">从手工运算到电子计算，开启中国数据处理能力跃迁</p>
+
+      <div class="body-wrap">
+        <article class="body-card">
+          <ul>
+            <li><strong>人物原型：</strong>夏培肃是中国计算机科学重要奠基者之一，在理论、教学与工程应用三条线上持续推进。</li>
+            <li><strong>历史节点：</strong>1956 年后计算技术进入国家重点布局；1950s 末至 1960s，早期电子计算机与程序设计体系逐步建立。</li>
+            <li><strong>你的任务：</strong>把手工反复运算转化为程序流程，建立输入规范、误差检查和结果复核机制。</li>
+            <li><strong>工程价值：</strong>程序化处理让“速度、规模、可复现性”同时提升，为后续数据处理体系奠定基础。</li>
+            <li><strong>数据科学对应能力：</strong>算法思维、工程实现、数据组织、任务调度与批处理流程设计。</li>
+          </ul>
+        </article>
+        <aside class="scene">
+          <img class="story-photo" src="./image_for_groupmajorPPT/Xia_Peisu.jpg" alt="夏培肃相关历史照片" />
+          <div class="photo-overlay"></div>
+          <div class="scene-text">
+            没有底层计算能力，<br />
+            就没有后来的大数据。<br />
+            <strong>算力，是数据科学的“地基”。</strong>
+          </div>
+        </aside>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" data-target="slide-youth-select">返回青年选择</button>
+        <button class="btn primary" data-target="slide-summary">进入总结页</button>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-summary" data-order="10" aria-label="总结页">
+      <h2 class="title">从“数据报国”到“智能强国”</h2>
+      <p class="subtitle">我的专业，不只服务行业，也服务国家战略</p>
+
+      <article class="summary-card">
+        <p>
+          1949—1970s 的关键科技跃迁告诉我们：国家重大工程从来不是“灵感驱动”，而是
+          <strong>数据驱动、模型驱动、系统驱动</strong>。
+        </p>
+        <p>
+          从“观测记录”到“算法决策”，中国科技建设逐步形成了完整链路：数据采集、标准化处理、模型构建、仿真验证、工程反馈。
+          这条链路本质上就是今天大数据平台与 AI 系统的工程原型。
+        </p>
+        <p>
+          今天我学习的数据科学与大数据技术，不只是为了做分析报告，
+          更是为了在关键产业和关键系统中提供可解释、可验证、可落地的技术能力。
+          <strong>我的专业（数据科学与大数据技术）我的国：</strong>既是个人成长路径，也是时代任务。
+        </p>
+      </article>
+
+      <div class="nav">
+        <button class="btn primary" data-target="slide-cover">重新挑战</button>
+        <button class="btn ghost" data-target="slide-youth-select">返回青年选择</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const summaryBtn = document.getElementById("summaryBtn");
+      const storySet = new Set([
+        "slide-story-space",
+        "slide-story-nuclear",
+        "slide-story-computing"
+      ]);
+      const visitedStories = new Set();
+      let currentOrder = 1;
+
+      function updateSummaryBtn() {
+        if (!summaryBtn) return;
+        const done = visitedStories.size;
+        const allDone = done === storySet.size;
+        summaryBtn.disabled = !allDone;
+        summaryBtn.textContent = allDone
+          ? "✅ 已解锁：进入总结页"
+          : "📌 浏览进度 " + done + "/3（解锁总结）";
+      }
+
+      function goTo(targetId) {
+        const target = document.getElementById(targetId);
+        if (!target) return;
+
+        if (storySet.has(targetId)) {
+          visitedStories.add(targetId);
+          updateSummaryBtn();
+        }
+
+        const nextOrder = Number(target.dataset.order || currentOrder);
+        slides.forEach((slide) => {
+          const order = Number(slide.dataset.order || 0);
+          slide.classList.remove("active", "prev");
+          if (order < nextOrder) slide.classList.add("prev");
+        });
+        target.classList.add("active");
+        currentOrder = nextOrder;
+      }
+
+      document.addEventListener("click", function (event) {
+        const trigger = event.target.closest("[data-target]");
+        if (!trigger) return;
+        if (trigger.disabled) return;
+        const targetId = trigger.getAttribute("data-target");
+        goTo(targetId);
+      });
+
+      updateSummaryBtn();
+    })();
+  </script>
+</body>
+</html>
