@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
@@ -8,8 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&family=Orbitron:wght@500;700&display=swap"
-    rel="stylesheet"
-  />
+    rel="stylesheet" />
   <style>
     :root {
       --bg-start: #170722;
@@ -57,6 +57,64 @@
     .btn,
     [data-target] {
       cursor: var(--aim-cursor);
+    }
+
+    /* 音乐播放器UI */
+    #music-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      padding: 10px 15px;
+      border-radius: var(--radius-md);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      color: var(--text);
+    }
+
+    #play-pause-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: background 0.2s;
+    }
+
+    #play-pause-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    #volume-slider {
+      width: 80px;
+      accent-color: var(--true-accent);
+      cursor: pointer;
+    }
+
+    .music-icon {
+      animation: spin 3s linear infinite;
+    }
+
+    .music-icon.paused {
+      animation-play-state: paused;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     body::before,
@@ -108,15 +166,13 @@
       background:
         radial-gradient(56% 48% at 22% 32%, rgba(206, 108, 255, 0.3), transparent 70%),
         radial-gradient(52% 44% at 78% 64%, rgba(255, 107, 170, 0.28), transparent 72%),
-        conic-gradient(
-          from 40deg at 58% 50%,
+        conic-gradient(from 40deg at 58% 50%,
           transparent 0deg,
           rgba(212, 103, 255, 0.14) 50deg,
           rgba(255, 129, 186, 0.16) 118deg,
           transparent 186deg,
           rgba(170, 92, 244, 0.15) 252deg,
-          transparent 360deg
-        );
+          transparent 360deg);
       filter: blur(16px) saturate(1.1);
       mix-blend-mode: screen;
       animation: drift 22s linear infinite;
@@ -229,10 +285,41 @@
       user-select: none;
     }
 
-    .p1 { --x: 24px; --line-len: 84px; --size: 28px; --delay: 0ms; --sway: 4deg; --period: 4.4s; }
-    .p2 { --x: 66px; --line-len: 112px; --size: 34px; --delay: 120ms; --sway: 7deg; --period: 6.1s; }
-    .p3 { --x: 114px; --line-len: 76px; --size: 24px; --delay: 220ms; --sway: 3deg; --period: 3.6s; }
-    .p4 { --x: 156px; --line-len: 96px; --size: 30px; --delay: 320ms; --sway: 5deg; --period: 5.2s; }
+    .p1 {
+      --x: 24px;
+      --line-len: 84px;
+      --size: 28px;
+      --delay: 0ms;
+      --sway: 4deg;
+      --period: 4.4s;
+    }
+
+    .p2 {
+      --x: 66px;
+      --line-len: 112px;
+      --size: 34px;
+      --delay: 120ms;
+      --sway: 7deg;
+      --period: 6.1s;
+    }
+
+    .p3 {
+      --x: 114px;
+      --line-len: 76px;
+      --size: 24px;
+      --delay: 220ms;
+      --sway: 3deg;
+      --period: 3.6s;
+    }
+
+    .p4 {
+      --x: 156px;
+      --line-len: 96px;
+      --size: 30px;
+      --delay: 320ms;
+      --sway: 5deg;
+      --period: 5.2s;
+    }
 
     .slide {
       position: absolute;
@@ -433,10 +520,21 @@
       animation: floatIn 760ms ease both;
     }
 
-    .choice[data-delay="1"] { animation-delay: 0.08s; }
-    .choice[data-delay="2"] { animation-delay: 0.2s; }
-    .choice[data-delay="3"] { animation-delay: 0.32s; }
-    .choice[data-delay="4"] { animation-delay: 0.44s; }
+    .choice[data-delay="1"] {
+      animation-delay: 0.08s;
+    }
+
+    .choice[data-delay="2"] {
+      animation-delay: 0.2s;
+    }
+
+    .choice[data-delay="3"] {
+      animation-delay: 0.32s;
+    }
+
+    .choice[data-delay="4"] {
+      animation-delay: 0.44s;
+    }
 
     .choice::before {
       content: "";
@@ -592,11 +690,9 @@
       position: absolute;
       inset: 0;
       background:
-        repeating-linear-gradient(
-          90deg,
+        repeating-linear-gradient(90deg,
           rgba(255, 255, 255, 0.035) 0 1px,
-          transparent 1px 20px
-        );
+          transparent 1px 20px);
       pointer-events: none;
       animation: drift 10s linear infinite reverse;
       z-index: 2;
@@ -674,11 +770,9 @@
       inset: 0;
       pointer-events: none;
       background:
-        repeating-linear-gradient(
-          -35deg,
+        repeating-linear-gradient(-35deg,
           rgba(var(--warning-page-rgb), 0.2) 0 12px,
-          transparent 12px 24px
-        );
+          transparent 12px 24px);
       opacity: 0.14;
       z-index: 0;
     }
@@ -810,9 +904,28 @@
       animation: flowPulse linear infinite;
     }
 
-    .flow-line.l1 { left: 12%; top: 28%; width: 56%; animation-duration: 2.8s; }
-    .flow-line.l2 { left: 26%; top: 46%; width: 48%; animation-duration: 3.6s; animation-delay: 0.5s; }
-    .flow-line.l3 { left: 8%; top: 64%; width: 62%; animation-duration: 3.2s; animation-delay: 0.9s; }
+    .flow-line.l1 {
+      left: 12%;
+      top: 28%;
+      width: 56%;
+      animation-duration: 2.8s;
+    }
+
+    .flow-line.l2 {
+      left: 26%;
+      top: 46%;
+      width: 48%;
+      animation-duration: 3.6s;
+      animation-delay: 0.5s;
+    }
+
+    .flow-line.l3 {
+      left: 8%;
+      top: 64%;
+      width: 62%;
+      animation-duration: 3.2s;
+      animation-delay: 0.9s;
+    }
 
     .flow-node {
       position: absolute;
@@ -824,9 +937,25 @@
       animation: nodeMove linear infinite;
     }
 
-    .flow-node.n1 { left: 20%; top: 25%; animation-duration: 3.8s; }
-    .flow-node.n2 { left: 44%; top: 43%; animation-duration: 4.4s; animation-delay: 0.7s; }
-    .flow-node.n3 { left: 18%; top: 61%; animation-duration: 3.2s; animation-delay: 1s; }
+    .flow-node.n1 {
+      left: 20%;
+      top: 25%;
+      animation-duration: 3.8s;
+    }
+
+    .flow-node.n2 {
+      left: 44%;
+      top: 43%;
+      animation-duration: 4.4s;
+      animation-delay: 0.7s;
+    }
+
+    .flow-node.n3 {
+      left: 18%;
+      top: 61%;
+      animation-duration: 3.2s;
+      animation-delay: 1s;
+    }
 
     .group-info {
       position: absolute;
@@ -1013,9 +1142,9 @@
       inset: 0;
     }
 
-    .part2-theme > *,
-    .part3-theme > *,
-    .part4-theme > * {
+    .part2-theme>*,
+    .part3-theme>*,
+    .part4-theme>* {
       position: relative;
       z-index: 1;
     }
@@ -1238,11 +1367,11 @@
       line-height: 1.72;
     }
 
-    #slide-p4-summary .summary-card li + li {
+    #slide-p4-summary .summary-card li+li {
       margin-top: 8px;
     }
 
-    #slide-p3-summary .summary-card p + p {
+    #slide-p3-summary .summary-card p+p {
       margin-top: 8px;
     }
 
@@ -1296,11 +1425,39 @@
       user-select: none;
     }
 
-    .flag-faint .big { left: 7%; top: 11%; font-size: 74px; }
-    .flag-faint .s1 { left: 16.2%; top: 8%; font-size: 26px; transform: rotate(26deg); }
-    .flag-faint .s2 { left: 20%; top: 13.6%; font-size: 24px; transform: rotate(8deg); }
-    .flag-faint .s3 { left: 19%; top: 21%; font-size: 23px; transform: rotate(-10deg); }
-    .flag-faint .s4 { left: 15.2%; top: 26%; font-size: 24px; transform: rotate(-26deg); }
+    .flag-faint .big {
+      left: 7%;
+      top: 11%;
+      font-size: 74px;
+    }
+
+    .flag-faint .s1 {
+      left: 16.2%;
+      top: 8%;
+      font-size: 26px;
+      transform: rotate(26deg);
+    }
+
+    .flag-faint .s2 {
+      left: 20%;
+      top: 13.6%;
+      font-size: 24px;
+      transform: rotate(8deg);
+    }
+
+    .flag-faint .s3 {
+      left: 19%;
+      top: 21%;
+      font-size: 23px;
+      transform: rotate(-10deg);
+    }
+
+    .flag-faint .s4 {
+      left: 15.2%;
+      top: 26%;
+      font-size: 24px;
+      transform: rotate(-26deg);
+    }
 
     .finale-slide .title,
     .finale-slide .subtitle,
@@ -1354,6 +1511,7 @@
         opacity: 0;
         transform: translateY(10px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -1361,60 +1519,150 @@
     }
 
     @keyframes drift {
-      0% { transform: translate3d(0, 0, 0); }
-      50% { transform: translate3d(2%, -2%, 0); }
-      100% { transform: translate3d(0, 0, 0); }
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+
+      50% {
+        transform: translate3d(2%, -2%, 0);
+      }
+
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
     }
 
     @keyframes twinkle {
-      0% { opacity: 0.62; transform: scale(1); }
-      50% { opacity: 0.92; transform: scale(1.015); }
-      100% { opacity: 0.62; transform: scale(1); }
+      0% {
+        opacity: 0.62;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.92;
+        transform: scale(1.015);
+      }
+
+      100% {
+        opacity: 0.62;
+        transform: scale(1);
+      }
     }
 
     @keyframes lineDrop {
-      0% { transform: scaleY(0); opacity: 0.15; }
-      100% { transform: scaleY(1); opacity: 1; }
+      0% {
+        transform: scaleY(0);
+        opacity: 0.15;
+      }
+
+      100% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
     }
 
     @keyframes pendantIntro {
-      0% { opacity: 0; transform: translateY(-6px) rotate(0deg); }
-      35% { transform: translateY(16px) rotate(-8deg); }
-      58% { transform: translateY(4px) rotate(7deg); }
-      74% { transform: translateY(11px) rotate(-5deg); }
-      100% { opacity: 1; transform: translateY(9px) rotate(0deg); }
+      0% {
+        opacity: 0;
+        transform: translateY(-6px) rotate(0deg);
+      }
+
+      35% {
+        transform: translateY(16px) rotate(-8deg);
+      }
+
+      58% {
+        transform: translateY(4px) rotate(7deg);
+      }
+
+      74% {
+        transform: translateY(11px) rotate(-5deg);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(9px) rotate(0deg);
+      }
     }
 
     @keyframes pendantSway {
-      0% { transform: translateY(9px) rotate(calc(var(--sway) * -1)); }
-      100% { transform: translateY(9px) rotate(var(--sway)); }
+      0% {
+        transform: translateY(9px) rotate(calc(var(--sway) * -1));
+      }
+
+      100% {
+        transform: translateY(9px) rotate(var(--sway));
+      }
     }
 
     @keyframes flowPulse {
-      0% { opacity: 0.2; transform: scaleX(0.75); }
-      50% { opacity: 0.95; transform: scaleX(1); }
-      100% { opacity: 0.2; transform: scaleX(0.75); }
+      0% {
+        opacity: 0.2;
+        transform: scaleX(0.75);
+      }
+
+      50% {
+        opacity: 0.95;
+        transform: scaleX(1);
+      }
+
+      100% {
+        opacity: 0.2;
+        transform: scaleX(0.75);
+      }
     }
 
     @keyframes nodeMove {
-      0% { transform: translateX(0) scale(0.8); opacity: 0.35; }
-      50% { transform: translateX(48px) scale(1); opacity: 1; }
-      100% { transform: translateX(0) scale(0.8); opacity: 0.35; }
+      0% {
+        transform: translateX(0) scale(0.8);
+        opacity: 0.35;
+      }
+
+      50% {
+        transform: translateX(48px) scale(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateX(0) scale(0.8);
+        opacity: 0.35;
+      }
     }
 
     @keyframes enterZoom {
-      from { opacity: 0; transform: scale(0.95) translateY(14px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
     @keyframes enterSweep {
-      from { opacity: 0; transform: translateX(46px) skewX(-3deg); }
-      to { opacity: 1; transform: translateX(0) skewX(0deg); }
+      from {
+        opacity: 0;
+        transform: translateX(46px) skewX(-3deg);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0) skewX(0deg);
+      }
     }
 
     @keyframes enterFloat {
-      from { opacity: 0; transform: translateY(22px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 980px) {
@@ -1455,14 +1703,42 @@
         height: 146px;
       }
 
-      .p1 { --x: 18px; --line-len: 72px; --size: 22px; }
-      .p2 { --x: 54px; --line-len: 92px; --size: 26px; }
-      .p3 { --x: 94px; --line-len: 66px; --size: 20px; }
-      .p4 { --x: 132px; --line-len: 82px; --size: 24px; }
+      .p1 {
+        --x: 18px;
+        --line-len: 72px;
+        --size: 22px;
+      }
+
+      .p2 {
+        --x: 54px;
+        --line-len: 92px;
+        --size: 26px;
+      }
+
+      .p3 {
+        --x: 94px;
+        --line-len: 66px;
+        --size: 20px;
+      }
+
+      .p4 {
+        --x: 132px;
+        --line-len: 82px;
+        --size: 24px;
+      }
     }
   </style>
 </head>
+
 <body class="bg-main">
+  <!-- 音乐播放器UI -->
+  <div id="music-player">
+    <button id="play-pause-btn" title="播放/暂停" class="music-icon paused">🎵</button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5" title="音量调节">
+  </div>
+  <audio id="bgm1" src="./music/First_SANABI.mp3" loop preload="auto"></audio>
+  <audio id="bgm2" src="./music/Second_theEnding.mp3" loop preload="auto"></audio>
+
   <main class="app" id="app">
     <div class="charm-widget" id="charmWidget" aria-label="吊坠装饰">
       <div class="charm-box" aria-hidden="true">
@@ -1496,9 +1772,10 @@
       <div class="group-info">
         <div><strong>组名：</strong>栉风沐雨，“计”往开来</div>
         <div><strong>演讲：</strong>张祎博</div>
-        <div><strong>制作：</strong>李嘉  施乐然  冯泽丞  王博文</div>
+        <div><strong>制作：</strong>李嘉 施乐然 冯泽丞 王博文</div>
         <div><strong>讲稿：</strong>赵子锐</div>
-        <div><strong>美术：</strong>李嘉  施乐然</div>
+        <div><strong>美术：</strong>李嘉 施乐然</div>
+        <div><strong>音乐：</strong>张祎博 (from SANABI)</div>
       </div>
       <div class="nav">
         <button class="btn primary" data-target="slide-home">进入第一部分</button>
@@ -1847,7 +2124,9 @@
           <p style="margin-top:12px;"><strong>💡 历史提示：</strong>邓小平1984年参观上海小学生计算机操作时曾说：“计算机普及要从娃娃抓起。”——这暗示了国家同样重视普及。</p>
         </article>
         <aside class="part-scene">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tianhe-2%20in%20National%20Supercomputer%20Center%20in%20Guangzhou.jpg" alt="高性能超算机房示意" />
+          <img
+            src="./image_for_groupmajorPPT/Tianhe-2_in_National_Supercomputer_Center_in_Guangzhou.jpg"
+            alt="高性能超算机房示意" />
           <div class="part-caption">单脚跳得再高，也走不远。</div>
         </aside>
       </div>
@@ -1963,7 +2242,8 @@
         </button>
       </div>
       <div class="nav">
-        <button class="btn primary" id="p3SummaryBtn" data-target="slide-p3-summary" disabled>📌 浏览进度 0/4（解锁总结页）</button>
+        <button class="btn primary" id="p3SummaryBtn" data-target="slide-p3-summary" disabled>📌 浏览进度
+          0/4（解锁总结页）</button>
         <button class="btn ghost" data-target="slide-p2-summary">返回第二部分总结</button>
       </div>
     </section>
@@ -1982,7 +2262,9 @@
           <ul>
             <li><strong>事件：</strong>1976年，武汉邮科院赵梓森院士在简陋实验室中拉制出中国第一根石英光纤（长度仅数米）。</li>
             <li><strong>人物：</strong>赵梓森（1932-2022），“中国光纤之父”，带领团队用汽油灯代替精密设备，攻克玻璃提纯工艺。</li>
-            <li><strong>意义：</strong>为中国互联网、宽带通信奠定物理基础，武汉因此成为“光通信之都”。光纤是大数据时代<strong>海量数据传输的物理命脉</strong>，没有光纤，数据中心之间、云端与终端之间的数据流动将无从谈起。</li>
+            <li>
+              <strong>意义：</strong>为中国互联网、宽带通信奠定物理基础，武汉因此成为“光通信之都”。光纤是大数据时代<strong>海量数据传输的物理命脉</strong>，没有光纤，数据中心之间、云端与终端之间的数据流动将无从谈起。
+            </li>
             <li style="list-style:none; margin-top:8px;"><strong>“每一秒穿梭在光纤里的PB级数据，都始于这根简陋但伟大的光纤。”</strong></li>
           </ul>
         </article>
@@ -2052,17 +2334,24 @@
       </div>
     </section>
 
-    <section class="slide part3-theme effect-sweep warning-slide" id="slide-p3-wrong" data-order="20" aria-label="第三部分辨析">
+    <section class="slide part3-theme effect-sweep warning-slide" id="slide-p3-wrong" data-order="20"
+      aria-label="第三部分辨析">
       <h2 class="title">❌</h2>
       <p class="subtitle">数字大脑虽好，但“率先建成”不是武汉</p>
       <div class="part-body">
         <article class="part-text">
           <ul>
             <li><strong>错误选项原文：</strong>“2020年，武汉率先建成城市级‘数字大脑’，全面运行大数据分析平台。”</li>
-            <li><strong>真相：</strong>武汉确实在推进智慧城市和大数据平台（如“武汉城市大脑”、“i武汉”），但全国范围内，上海、杭州、深圳等城市更早提出并落地；武汉并未在2020年“率先建成”全面运行的“数字大脑”。</li>
-            <li><strong>武汉真实的大数据进展：</strong>2021年武汉获批国家新一代人工智能创新发展试验区；2022年武汉大数据交易所成立（中部首家）；2023年武汉超算中心与人工智能计算中心形成“双中心”算力集群。</li>
+            <li>
+              <strong>真相：</strong>武汉确实在推进智慧城市和大数据平台（如“武汉城市大脑”、“i武汉”），但全国范围内，上海、杭州、深圳等城市更早提出并落地；武汉并未在2020年“率先建成”全面运行的“数字大脑”。
+            </li>
+            <li>
+              <strong>武汉真实的大数据进展：</strong>2021年武汉获批国家新一代人工智能创新发展试验区；2022年武汉大数据交易所成立（中部首家）；2023年武汉超算中心与人工智能计算中心形成“双中心”算力集群。
+            </li>
           </ul>
-          <p style="margin-top:12px;"><strong>官方新闻对照提示：</strong>可引用“武汉获批国家新一代人工智能创新发展试验区”、“武汉大数据交易所揭牌成立”、“武汉人工智能计算中心上线”等公开报道标题进行核验。</p>
+          <p style="margin-top:12px;">
+            <strong>官方新闻对照提示：</strong>可引用“武汉获批国家新一代人工智能创新发展试验区”、“武汉大数据交易所揭牌成立”、“武汉人工智能计算中心上线”等公开报道标题进行核验。
+          </p>
         </article>
         <aside class="part-scene">
           <img src="./slr/CityBrain.jpg" alt="城市大脑示意图" />
@@ -2203,7 +2492,7 @@
 
     <section class="slide part4-theme effect-float" id="slide-p4-summary" data-order="26" aria-label="第四部分总结">
       <div class="page-chip">大数据科学 · 社会价值与展望</div>
-      <h2 class="title">用数据温暖社会 · 一起包饺子</h2>
+      <h2 class="title">用数据温暖社会 · 用科技点亮人生</h2>
 
       <div class="summary-card">
         <p>📌 <strong>大数据视角下的华科群星</strong></p>
@@ -2212,7 +2501,9 @@
           <li><strong>张小龙</strong> —— 图数据与推荐系统：13亿节点社交网络的挖掘与分发</li>
           <li><strong>冯骥</strong> —— 用户行为分析：游戏数据埋点、A/B测试与文化数据挖掘</li>
         </ul>
-        <p><span class="data-badge">数据采集</span><span class="data-badge">数据存储</span><span class="data-badge">数据清洗</span><span class="data-badge">数据分析</span><span class="data-badge">数据可视化</span><span class="data-badge">数据伦理</span></p>
+        <p><span class="data-badge">数据采集</span><span class="data-badge">数据存储</span><span
+            class="data-badge">数据清洗</span><span class="data-badge">数据分析</span><span class="data-badge">数据可视化</span><span
+            class="data-badge">数据伦理</span></p>
         <p style="margin-top: 12px;">三位华科翘楚的故事，共同诠释了<strong>“数据从何而来、如何处理、如何创造价值”</strong>的大数据科学闭环。</p>
       </div>
 
@@ -2239,9 +2530,9 @@
       </div>
 
       <div class="summary-card">
-        <div class="quote">🥟 一起包饺子 · 致未来的数据科学家</div>
+        <div class="quote">🥟 我们的期望 · 致未来的数据科学家</div>
         <p>栉风沐雨，我们见证了计算机从手工焊接到大数据时代的跨越；<br>
-        “计”往开来，我们要用数据思维书写新的历史篇章。</p>
+          “计”往开来，我们要用数据思维书写新的历史篇章。</p>
         <p style="margin-top: 12px; font-size: 14px;">每一位华科数据人，都可以成为下一个冯骥、下一个张小龙——用数据创造价值，用技术温暖社会。</p>
       </div>
 
@@ -2401,6 +2692,7 @@
         }
         const targetId = trigger.getAttribute("data-target");
         goTo(targetId);
+        if (typeof updateBGM === "function") updateBGM();
       });
 
       if (endSpeechBtn && endScreen) {
@@ -2416,7 +2708,45 @@
       updateP2CButton();
       updateP3SummaryButton();
       syncBodyTheme(document.querySelector(".slide.active") || slides[0]);
+
+      // BGM Logic
+      const bgm1 = document.getElementById("bgm1");
+      const bgm2 = document.getElementById("bgm2");
+      const playPauseBtn = document.getElementById("play-pause-btn");
+      const volumeSlider = document.getElementById("volume-slider");
+      let isPlaying = false;
+
+      function updateBGM() {
+        if (!isPlaying) return;
+        if (currentOrder >= 6) {
+          if (!bgm1.paused) bgm1.pause();
+          if (bgm2.paused) bgm2.play().catch(e => console.error("BGM Play Error:", e));
+        } else {
+          if (!bgm2.paused) bgm2.pause();
+          if (bgm1.paused) bgm1.play().catch(e => console.error("BGM Play Error:", e));
+        }
+      }
+
+      playPauseBtn.addEventListener("click", () => {
+        if (isPlaying) {
+          bgm1.pause();
+          bgm2.pause();
+          playPauseBtn.classList.add("paused");
+          isPlaying = false;
+        } else {
+          isPlaying = true;
+          playPauseBtn.classList.remove("paused");
+          updateBGM();
+        }
+      });
+
+      volumeSlider.addEventListener("input", (e) => {
+        const vol = e.target.value;
+        bgm1.volume = vol;
+        bgm2.volume = vol;
+      });
     })();
   </script>
 </body>
+
 </html>
