@@ -6,9 +6,8 @@
 ## 项目结构
 
 - `major-country-data-science.html`：主演示文件（推荐直接打开）
-- `image_for_groupmajorPPT/`：主文件使用的图片资源
-- `slr/`：第三部分（武汉）相关素材与原稿
-- `fzc/`：第四部分（华科群星）相关素材与原稿
+- `image_for_groupmajorPPT/`：统一图片资源目录（已整合原 `slr/` 与 `fzc/` 图片）
+- `music/`：演示配乐资源
 - `gaigekaifang (1).html`：第二部分原稿（改革开放）
 
 ## 使用方式
